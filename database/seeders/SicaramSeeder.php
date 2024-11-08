@@ -23,6 +23,7 @@ class SicaramSeeder extends Seeder
                     'nomenklatur_code' => $data['code'],
                 ], [
                     'sicaram_id' => $data['id'],
+                    'alias' => $data['alias'],
                     'logo' => $data['logo'],
                 ]);
             }

@@ -17,11 +17,13 @@ class Index extends Component
     public $periode = 1, $year;
     public $instanceIdKeuangan, $dataKeuangan = [];
     public $instanceIdKinerja, $dataKinerja = [];
+    public $dataRank = [];
 
     function mount()
     {
         $this->cookieUser = collect(json_decode(Cookie::get('seu', true)));
-        $this->cookieSkpdBawahan = collect(json_decode(Cookie::get('sesb', true)));
+        $this->cookieSkpdBawahan = collect(json_decode(Cookie::get('sesb', true)))->toArray();
+        // dd($this->cookieSkpdBawahan);
         $defaultInstanceId = $this->cookieUser['id_skpd'];
         $defaultInstanceId = DB::table('ref_instance')->where('semesta_id', $defaultInstanceId)->first();
         if (!$defaultInstanceId) {
@@ -123,6 +125,21 @@ class Index extends Component
         if ($response['status'] == 'success') {
             $this->dataKinerja = $response['data'];
             // dd($this->dataKinerja);
+        }
+    }
+
+    function _getDataRank()
+    {
+        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/rank-instance', [
+            'periode' => $this->periode,
+            'year' => $this->year,
+            // 'instances' => $this->instanceIdKinerja, // multiple
+        ]);
+
+        $response = collect(json_decode($response, true));
+        if ($response['status'] == 'success') {
+            $this->dataRank = $response['data'];
+            // dd($this->dataRank);
         }
     }
 }

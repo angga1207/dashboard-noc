@@ -15,6 +15,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pemerintahan-kesra', App\Livewire\PemerintahanKesra\Index::class)->name('pemerintahan-kesra');
 
     Route::get('/perekonomian-pembangunan', App\Livewire\PerekonomianPembangunan\Index::class)->name('perekonomian-pembangunan');
+    Route::get('/perekonomian-pembangunan/{code}', App\Livewire\PerekonomianPembangunan\Detail::class)->name('perekonomian-pembangunan.detail');
     // Route::get('/administrasi-umum', App\Livewire\AdministrasiUmum\Index::class)->name('administrasi-umum');
 
     //

@@ -23,7 +23,7 @@ class SemestaSeeder extends Seeder
                     'semesta_id' => $data['id'],
                 ], [
                     'name' => $data['nama_skpd'],
-                    'alias' => $data['nama_skpd'],
+                    'alias' => $data['nama_skpd_alias'],
                     'type' => $data['jenis_skpd'],
                     'parent_id' => DB::table('ref_instance')->where('semesta_id', $data['id_skpd_induk'])->first()->id ?? 0,
                     'kecamatan_id' => $data['id_kecamatan'],

@@ -76,6 +76,15 @@
                                     Capaian Realisasi
                                 </p>
                             </div>
+
+                            @if($instanceIdKeuangan)
+                            <div class="mb-4 text-center">
+                                <a href="{{ route('perekonomian-pembangunan.detail', ['code' => $selectedInstanceKeuangan->nomenklatur_code, 'view' => 'keuangan']) }}"
+                                    class="btn btn-primary btn-block btn-signin">
+                                    Buka Detail
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -176,11 +185,94 @@
                                     Capaian Realisasi
                                 </p>
                             </div>
+                            @if($instanceIdKinerja)
+                            <div class="mb-4 text-center">
+                                <a href="{{ route('perekonomian-pembangunan.detail', ['code' => $selectedInstanceKinerja->nomenklatur_code, 'view' => 'kinerja']) }}"
+                                    class="btn btn-primary btn-block btn-signin">
+                                    Buka Detail
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
             {{-- Kinerja Start --}}
+
+            @if(count($this->cookieSkpdBawahan) > 1)
+            {{-- Rank Start --}}
+            <div wire:init="_getDataRank"></div>
+            <div class=" mt-4">
+                <h6 class="slim-card-title mb-3">
+                    <i class="fa fa-universal-access mr-2"></i>
+                    Peringkat Capaian Perangkat Daerah
+                </h6>
+                <div class="row">
+                    @foreach($dataRank as $inst)
+                    <a href="#" class="col-12 pb-3" style="cursor: pointer">
+                        <div class="card card-sales bg-mantle">
+                            <div class="d-flex justify-content-between gap-4" style="overflow-y: auto">
+
+                                <div class="">
+                                    <div class="text-muted">
+                                        {{ $inst['instance_code'] }}
+                                    </div>
+                                    <h4 class="tx-white-8 fs-32">
+                                        {{ $inst['instance_name'] }}
+                                    </h4>
+
+                                    <div class="d-flex mt-2">
+                                        <div class="border-right pr-3">
+                                            <label class="fs-16 tx-white-8 mb-0" style="white-space: nowrap">
+                                                Anggaran Keuangan
+                                            </label>
+                                            <p class="fs-32 tx-white-8 mb-0" style="white-space: nowrap">
+                                                Rp. {{ number_format($inst['target_anggaran'],0,'.','.') }}
+                                            </p>
+                                        </div>
+                                        <div class="ml-3 pr-3 border-right">
+                                            <label class="fs-16 tx-white-8 mb-0" style="white-space: nowrap">
+                                                Realisasi Keuangan
+                                            </label>
+                                            <p class="fs-32 tx-white-8 mb-0" style="white-space: nowrap">
+                                                Rp. {{ number_format($inst['realisasi_anggaran'],0,'.','.') }}
+                                            </p>
+                                        </div>
+                                        <div class="ml-3 pr-3 border-right">
+                                            <label class="fs-16 tx-white-8 mb-0 text-center"
+                                                style="white-space: nowrap">
+                                                Persentase Realisasi Keuangan
+                                            </label>
+                                            <p class="fs-32 tx-white-8 mb-0 text-center" style="white-space: nowrap">
+                                                {{ number_format($inst['persentase_realisasi_anggaran'],2,'.','.') }} %
+                                            </p>
+                                        </div>
+                                        <div class="ml-3 pr-3">
+                                            <label class="fs-16 tx-white-8 mb-0 text-center"
+                                                style="white-space: nowrap">
+                                                Persentase Realisasi Kinerja
+                                            </label>
+                                            <p class="fs-32 tx-white-8 mb-0 text-center" style="white-space: nowrap">
+                                                {{ number_format($inst['persentase_realisasi_kinerja'],2,'.','.') }} %
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="align-self-center">
+                                    <img src="{{ asset($inst['instance_logo']) }}" alt="Logo"
+                                        style="width:100%; height:100px; object-fit:contain">
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            {{-- Rank End --}}
+            @endif
+
         </div>
     </div>
 
