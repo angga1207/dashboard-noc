@@ -93,8 +93,12 @@
                             <div class="col-12 col-xl-9">
                                 <div class="">
                                     <div style="width: 100%; height: 400px">
+                                        @if(isset($this->dataSicaram['main_anggaran']))
                                         <livewire:livewire-column-chart key="{{ $chartKeuangan->reactiveKey() }}"
                                             :column-chart-model="$chartKeuangan" />
+                                        @else
+                                        @livewire('components.loading')
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -155,8 +159,12 @@
                             <div class="col-12 col-xl-9">
                                 <div class="">
                                     <div style="width: 100%; height: 400px">
+                                        @if(isset($this->dataSicaram['main_kinerja']))
                                         <livewire:livewire-column-chart key="{{ $chartKinerja->reactiveKey() }}"
                                             :column-chart-model="$chartKinerja" />
+                                        @else
+                                        @livewire('components.loading')
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -703,6 +711,20 @@
                         </div>
                         @endif
 
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="slim-card-title mb-3">
+                            <i class="fa fa-universal-access mr-2"></i>
+                            Daftar Program {{ $instance->alias }}
+                        </h6>
+                        <div style="width: 100%; height: 400px">
+                            @livewire('components.loading')
+                        </div>
                     </div>
                 </div>
             </div>

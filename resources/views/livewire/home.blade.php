@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 ?>
 <div>
 
@@ -325,8 +327,8 @@
                             </div>
 
                             <!-- MODAL EFFECTS -->
-                            <div id="modalSuratMasuk" class="modal fade">
-                                <div class="modal-dialog modal-xl">
+                            <div wire:ignore.self id="modalSuratMasuk" class="modal fade">
+                                <div class="modal-dialog modal-xl" style="width: calc(100vw - 50px)">
                                     <div class="modal-content bd-0 tx-14">
                                         <div class="modal-header pd-y-20 pd-x-25">
                                             <div class="d-flex justify-content-between">
@@ -341,40 +343,73 @@
                                         <div class="modal-body pd-25">
                                             <div class="row row-sm justify-content-between">
                                                 <div class="col-12 col-md-4">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih Bulan">
-                                                        <option label="Pilih Bulan"></option>
-                                                        <option>Januari</option>
-                                                        <option>Februari</option>
-                                                        <option>Maret</option>
-                                                        <option>...</option>
-                                                        <option>Desember</option>
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            allowEmptyOption: false,
+                                                            sortField: {
+                                                                field: 'value',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedMonth">
+                                                        <option value="">Pilih Bulan</option>
+                                                        @foreach($arrMonths as $key => $mnth)
+                                                        <option value="{{ $key }}">
+                                                            {{ $mnth }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
+                                                    @error('selectedMonth')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-12 col-md-3">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih Tahun">
-                                                        <option label="Pilih Tahun"></option>
-                                                        <option>2024</option>
-                                                        <option>2023</option>
-                                                        <option>2022</option>
-                                                        <option>2021</option>
-                                                        <option>2020</option>
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            allowEmptyOption: false,
+                                                            sortField: {
+                                                                field: 'text',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedYear">
+                                                        <option value="">Pilih Tahun</option>
+                                                        @foreach($arrYears as $yr)
+                                                        <option value="{{ $yr }}">
+                                                            {{ $yr }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
+                                                    @error('selectedYear')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="col-12 col-lg-3">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih Status">
-                                                        <option label="Pilih Status"></option>
-                                                        <option>Belum Diproses</option>
-                                                        <option>Disposisi</option>
-                                                        <option>Selesai</option>
+                                                <div class="col-12 col-md-3">
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            sortField: {
+                                                                field: 'text',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedStatus">
+                                                        <option value="">Semua Status</option>
+                                                        @foreach($arrStatus as $key => $sts)
+                                                        <option value="{{ $key }}">
+                                                            {{ $sts }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-lg-2">
-                                                    <button type="button" class="btn btn-primary active"><i
-                                                            class="fa fa-filter"
-                                                            style="margin-right: 5px;"></i>Filter</button>
+                                                    <button type="button" class="btn btn-primary active"
+                                                        wire:click.prevent="filterSuratMasuk">
+                                                        <i class="fa fa-filter" style="margin-right: 5px;"></i>
+                                                        Filter
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="table-responsive">
@@ -390,51 +425,60 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @forelse($dataSuratMasuk as $data)
                                                         <tr>
-                                                            <th scope="row">1</th>
+                                                            <th scope="row">
+                                                                {{ $loop->iteration }}
+                                                            </th>
                                                             <td>
-                                                                <span>31 Oktober 2024</span><br>
-                                                                <span class="badge badge-info">Semesta</span>
+                                                                <span>
+                                                                    {{
+                                                                    Carbon::parse($data['tanggal_diterima'])->isoFormat('DD
+                                                                    MMMM Y') }}
+                                                                </span>
+                                                                <br>
+                                                                <span class="badge badge-info">
+                                                                    {{ $data['skpd_id'] }}
+                                                                    [skpd_id = {{ $data['skpd_id'] }}]
+                                                                </span>
                                                             </td>
-                                                            <td>000.7.2/465/BAPPEDA-PPE/2024</td>
-                                                            <td>Permintaan Penyampaian Laporan Realisasi Capaian Kinerja
-                                                                dan Keuangan Triwulan III
-                                                                Tahun Anggaran 2024</td>
-                                                            <td>AGUNG ABDI SAPUTRA - Analis Perencanaan (Kelas 7)</td>
-                                                            <td><span class="badge badge-primary">disposisi</span></td>
+                                                            <td>
+                                                                {{ $data['naskah_keluar']['nomor'] ?? '-' }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $data['naskah_keluar']['hal'] ?? '-' }}
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    {{ $data['naskah_keluar']['pegawai_created_id'] ??
+                                                                    '-' }}[pegawai_created_id =
+                                                                    {{ $data['naskah_keluar']['pegawai_created_id'] }}]
+                                                                    -
+                                                                </div>
+                                                                <div>
+                                                                    [jabatan_no_data]
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge
+                                                                @if($data['naskah_keluar']['status'] == 'SELESAI')
+                                                                badge-success
+                                                                @else badge-primary
+                                                                @endif">
+                                                                    {{ $data['naskah_keluar']['status'] }}
+                                                                </span>
+                                                            </td>
                                                         </tr>
+                                                        @empty
                                                         <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>
-                                                                <span>31 Oktober 2024</span><br>
-                                                                <span class="badge badge-info">Semesta</span>
-                                                            </td>
-                                                            <td>000.7.2/465/BAPPEDA-PPE/2024</td>
-                                                            <td>Permintaan Penyampaian Laporan Realisasi Capaian Kinerja
-                                                                dan Keuangan Triwulan III
-                                                                Tahun Anggaran 2024</td>
-                                                            <td>AGUNG ABDI SAPUTRA - Analis Perencanaan (Kelas 7)</td>
-                                                            <td><span class="badge badge-warning tx-white">belum
-                                                                    diproses</span></td>
+                                                            <td colspan="6" class="text-center">Tidak ada data</td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row">3</th>
-                                                            <td>
-                                                                <span>31 Oktober 2024</span><br>
-                                                                <span class="badge badge-info">Semesta</span>
-                                                            </td>
-                                                            <td>000.7.2/465/BAPPEDA-PPE/2024</td>
-                                                            <td>Permintaan Penyampaian Laporan Realisasi Capaian Kinerja
-                                                                dan Keuangan Triwulan III
-                                                                Tahun Anggaran 2024</td>
-                                                            <td>AGUNG ABDI SAPUTRA - Analis Perencanaan (Kelas 7)</td>
-                                                            <td><span class="badge badge-success">selesai</span></td>
-                                                        </tr>
+                                                        @endforelse
                                                     </tbody>
                                                 </table>
-                                            </div><!-- table-responsive -->
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
+                                        <div class="modal-footer hidden d-none">
                                             <nav aria-label="Page navigation">
                                                 <ul class="pagination mg-b-0">
                                                     <li class="page-item active"><a class="page-link" href="#">1</a>
@@ -457,8 +501,8 @@
                             <!-- modal -->
 
                             <!-- MODAL EFFECTS -->
-                            <div id="modalSuratKeluar" class="modal fade">
-                                <div class="modal-dialog modal-xl">
+                            <div wire:ignore.self id="modalSuratKeluar" class="modal fade">
+                                <div class="modal-dialog modal-xl" style="width: calc(100vw - 50px)">
                                     <div class="modal-content bd-0 tx-14">
                                         <div class="modal-header pd-y-20 pd-x-25">
                                             <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Daftar Surat Keluar
@@ -469,43 +513,74 @@
                                         </div>
                                         <div class="modal-body pd-25">
                                             <div class="row row-sm justify-content-between">
-                                                <div class="col-12 col-md-3">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih">
-                                                        <option label="Pilih Bulan"></option>
-                                                        <option>Januari</option>
-                                                        <option>Februari</option>
-                                                        <option>Maret</option>
-                                                        <option>...</option>
-                                                        <option>Desember</option>
+                                                <div class="col-12 col-md-4">
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            allowEmptyOption: false,
+                                                            sortField: {
+                                                                field: 'value',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedMonth">
+                                                        <option value="">Pilih Bulan</option>
+                                                        @foreach($arrMonths as $key => $mnth)
+                                                        <option value="{{ $key }}">
+                                                            {{ $mnth }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
+                                                    @error('selectedMonth')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-12 col-md-3">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih">
-                                                        <option label="Pilih Tahun"></option>
-                                                        <option>2024</option>
-                                                        <option>2023</option>
-                                                        <option>2022</option>
-                                                        <option>2021</option>
-                                                        <option>2020</option>
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            allowEmptyOption: false,
+                                                            sortField: {
+                                                                field: 'text',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedYear">
+                                                        <option value="">Pilih Tahun</option>
+                                                        @foreach($arrYears as $yr)
+                                                        <option value="{{ $yr }}">
+                                                            {{ $yr }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
+                                                    @error('selectedYear')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <select class="form-control select2-show-search mg-b-30"
-                                                        data-placeholder="Pilih">
-                                                        <option label="Pilih Perangkat Daerah"></option>
-                                                        <option>Dinas Sosial</option>
-                                                        <option>Dinas Kesehatan</option>
-                                                        <option>Dinas Pendidikan</option>
-                                                        <option>Bappeda</option>
-                                                        <option>Bapenda</option>
+                                                <div class="col-12 col-md-3">
+                                                    <select class="form-control" x-init="
+                                                        new TomSelect($el,{
+                                                            create: false,
+                                                            sortField: {
+                                                                field: 'text',
+                                                                direction: 'asc'
+                                                            }
+                                                        });
+                                                        " wire:model="selectedStatusSuratKeluar">
+                                                        <option value="">Semua Status</option>
+                                                        @foreach($arrStatusSuratKeluar as $key => $sts)
+                                                        <option value="{{ $key }}">
+                                                            {{ $sts }}
+                                                        </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-12 col-lg-2">
-                                                    <button type="button" class="btn btn-indigo active"><i
-                                                            class="fa fa-filter"
-                                                            style="margin-right: 5px;"></i>Filter</button>
+                                                    <button type="button" class="btn btn-indigo active"
+                                                        wire:click.prevent="filterSuratKeluar">
+                                                        <i class="fa fa-filter" style="margin-right: 5px;"></i>
+                                                        Filter
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="table-responsive">
@@ -523,47 +598,83 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+
+                                                        @forelse($dataSuratKeluar as $data)
                                                         <tr>
-                                                            <th scope="row">1</th>
+                                                            <th scope="row">
+                                                                {{ $loop->iteration }}
+                                                            </th>
                                                             <td>
-                                                                <span>31 Oktober 2024</span><br>
+                                                                <span>
+                                                                    {{
+                                                                    Carbon::parse($data['tanggal_naskah'])->isoFormat('DD
+                                                                    MMMM Y') }}
+                                                                </span>
+                                                                <br>
+                                                                <span class="badge badge-info">
+                                                                    {{ $data['skpd_pengirim_id'] }}
+                                                                    [skpd_pengirim_id = {{ $data['skpd_pengirim_id'] }}]
+                                                                </span>
                                                             </td>
-                                                            <td>000.1.2.1/143/BKBP/2024</td>
-                                                            <td>Koordinasi Terkait Persiapan Pelaksanaan Pilkada
-                                                                Serentak tahun 2024 , pada Hari
-                                                                Jum’at tanggal 25 Oktober 2024 di Badan Kesatuan Bangsa
-                                                                dan Politik Provinsi Sumatera
-                                                                Selatan.</td>
-                                                            <td>LENI MARLINA - Kepala Bidang Politik</td>
-                                                            <td><span class="badge badge-warning tx-white">1
-                                                                    belum</span></td>
-                                                            <td><span class="badge badge-warning tx-white">1
-                                                                    belum</span></td>
-                                                            <td><span class="badge badge-danger tx-white">belum</span>
+                                                            <td>
+                                                                {{ $data['nomor'] ?? '-' }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $data['hal'] ?? '-' }}
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    {{ $data['pegawai_created_id'] ??
+                                                                    '-' }}[pegawai_created_id =
+                                                                    {{ $data['pegawai_created_id'] }}]
+                                                                    -
+                                                                </div>
+                                                                <div>
+                                                                    [jabatan_no_data]
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge
+                                                                @if($data['status'] == 'SELESAI')
+                                                                badge-success
+                                                                @else badge-primary
+                                                                @endif">
+                                                                    {{ $data['status'] }}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge
+                                                                @if($data['is_signed'] == 1)
+                                                                badge-success
+                                                                @elseif($data['is_signed'] == 2)
+                                                                badge-warning
+                                                                @else badge-primary
+                                                                @endif">
+                                                                    {{ $data['is_signed'] }}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="badge
+                                                                @if($data['is_forward'] == 1)
+                                                                badge-success
+                                                                @elseif($data['is_forward'] == 0)
+                                                                badge-warning
+                                                                @endif">
+                                                                    {{ $data['is_forward'] }}
+                                                                </span>
                                                             </td>
                                                         </tr>
+                                                        @empty
                                                         <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>
-                                                                <span>31 Oktober 2024</span><br>
-                                                            </td>
-                                                            <td>900.1.13.1/854/V/Bapenda/2024</td>
-                                                            <td>Update dan Validasi Data PBB P2 PT. Buyung Putra Pangan
-                                                            </td>
-                                                            <td>RINA OKTAVIANA - Analis Pajak Daerah (Kelas 7)</td>
-                                                            <td><span class="badge badge-success tx-white">3
-                                                                    setuju</span></td>
-                                                            <td><span class="badge badge-success tx-white">1
-                                                                    setuju</span></td>
-                                                            <td><span class="badge badge-success tx-white">sudah</span>
-                                                            </td>
+                                                            <td colspan="6" class="text-center">Tidak ada data</td>
                                                         </tr>
+                                                        @endforelse
 
                                                     </tbody>
                                                 </table>
                                             </div><!-- table-responsive -->
                                         </div>
-                                        <div class="modal-footer">
+                                        <div class="modal-footer hidden d-none">
                                             <nav aria-label="Page navigation">
                                                 <ul class="pagination mg-b-0">
                                                     <li class="page-item active bg-indigo"><a class="page-link"
@@ -587,13 +698,14 @@
 
                             <div class="col-12 col-md-6 mb-3">
                                 <a href="#modalSuratMasuk" class="card card-status bg-green modal-effect"
-                                    data-toggle="modal">
+                                    data-toggle="modal" wire:click.prevent="_getSuratMasuk">
                                     <div class="media">
                                         <i class="icon ion-ios-paper-outline tx-white"></i>
                                         <div class="media-body">
                                             <h1>
-                                                @if(isset($this->dataSuratSemesta['naskah_masuk']))
-                                                {{ number_format($this->dataSuratSemesta['naskah_masuk'], 0, '.', '.')
+                                                @if(isset($this->dataSuratSemesta['total_surat_masuk']))
+                                                {{ number_format($this->dataSuratSemesta['total_surat_masuk'], 0, ',',
+                                                ',')
                                                 }}
                                                 @else
                                                 0
@@ -607,14 +719,14 @@
 
                             <div class="col-12 col-md-6 mb-3">
                                 <a href="#modalSuratKeluar" class="card card-status bg-blue modal-effect"
-                                    data-toggle="modal">
+                                    data-toggle="modal" wire:click.prevent="_getSuratKeluar">
                                     <div class="media">
                                         <i class="icon ion-ios-paper-outline tx-white"></i>
                                         <div class="media-body">
                                             <h1>
-                                                @if(isset($this->dataSuratSemesta['total_naskah_keluar']))
-                                                {{ number_format($this->dataSuratSemesta['total_naskah_keluar'], 0, '.',
-                                                '.')
+                                                @if(isset($this->dataSuratSemesta['total_surat_keluar']))
+                                                {{ number_format($this->dataSuratSemesta['total_surat_keluar'], 0, ',',
+                                                ',')
                                                 }}
                                                 @else
                                                 0
@@ -700,46 +812,16 @@
                                 </div>
                             </div>
                             <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                                <div wire:ignore>
-                                    <div x-init="
-                                        new ApexCharts($el, {
-                                            series: [{
-                                            name: 'Presensi',
-                                            data: [44, 55, 41, 17, 15, 44, 55, 41, 17, 15, 44, 55,] // Replace with appropriate y-axis data
-                                            }],
-                                            chart: {
-                                            type: 'line',
-                                            height: 375,
-                                            },
-                                            xaxis: {
-                                            categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',],// Labels for x-axis
-                                            },
-                                            title: {
-                                            text: 'Dinas Komunikasi Informatika Statistik dan Persandian',
-                                            align: 'left'
-                                            },
-                                            legend: {
-                                            position: 'bottom'
-                                            },
-                                            dataLabels: {
-                                            enabled: true,
-                                            formatter: function (val, opts) {
-                                                return opts.w.config.series[0].data[opts.dataPointIndex]; // Display actual data values
-                                            }
-                                            },
-                                            responsive: [{
-                                            breakpoint: 480,
-                                            options: {
-                                                chart: {
-                                                width: 200,
-                                                },
-                                                legend: {
-                                                position: 'bottom'
-                                                },
-                                            }
-                                            }]
-                                        }).render();
-                                    "></div>
+
+                                <div style="width: 100%; height: 350px">
+                                    {{-- @if(isset($this->pres_data['labels']) &&
+                                    isset($this->pres_data['data'])) --}}
+                                    <livewire:livewire-line-chart
+                                        key="{{ $chartKondisiPresensiPegawai->reactiveKey() }}"
+                                        :line-chart-model="$chartKondisiPresensiPegawai" />
+                                    {{-- @else
+                                    @livewire('components.loading')
+                                    @endif --}}
                                 </div>
                             </div>
                             <a href="noc_administrasi_umum.html" class="card-footer">
@@ -800,7 +882,11 @@
                             Honorer
                         </h4>
                         <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                            <div id="kondisiNonAsn"></div>
+                            {{-- <div id="kondisiNonAsn"></div> --}}
+                            <div style="width: 100%; height: 140px">
+                                <livewire:livewire-column-chart key="{{ $chartTenagaHonorer->reactiveKey() }}"
+                                    :column-chart-model="$chartTenagaHonorer" />
+                            </div>
                         </div>
                         <a href="noc_administrasi_umum.html" class="card-footer">
                             <span class="ref">Sumber Data : Aplikasi Sinona</span>
@@ -817,7 +903,11 @@
                             Realisasi Program
                         </h6>
                         <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                            <div id="realisasiProgram"></div>
+                            {{-- <div id="realisasiProgram"></div> --}}
+                            <div style="width: 100%; height: 300px">
+                                <livewire:livewire-pie-chart key="{{ $chartRealisasiProgram->reactiveKey() }}"
+                                    :pie-chart-model="$chartRealisasiProgram" />
+                            </div>
                         </div>
                         <div class="card-footer">
                             <span class="ref">Sumber Data : Aplikasi Sicaram</span>
@@ -830,7 +920,11 @@
                             Realisasi Kegiatan
                         </h6>
                         <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                            <div id="realisasiKegiatan"></div>
+                            {{-- <div id="realisasiKegiatan"></div> --}}
+                            <div style="width: 100%; height: 300px">
+                                <livewire:livewire-pie-chart key="{{ $chartRealisasiKegiatan->reactiveKey() }}"
+                                    :pie-chart-model="$chartRealisasiKegiatan" />
+                            </div>
                         </div>
                         <div class="card-footer">
                             <span class="ref">Sumber Data : Aplikasi Sicaram</span>
@@ -844,7 +938,11 @@
                             Realisasi
                             Pendapatan</h6>
                         <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                            <div id="realisasiPendapatan"></div>
+                            {{-- <div id="realisasiPendapatan"></div> --}}
+                            <div style="width: 100%; height: 300px">
+                                <livewire:livewire-pie-chart key="{{ $chartRealisasiPendapatan->reactiveKey() }}"
+                                    :pie-chart-model="$chartRealisasiPendapatan" />
+                            </div>
                         </div>
                         <div class="card-footer">
                             <span class="ref">Sumber Data : Aplikasi Sicaram</span>
@@ -858,7 +956,11 @@
                             Realisasi Belanja
                         </h6>
                         <div class="bd pd-t-30 pd-b-20 pd-x-20">
-                            <div id="realisasiBelanja"></div>
+                            {{-- <div id="realisasiBelanja"></div> --}}
+                            <div style="width: 100%; height: 300px">
+                                <livewire:livewire-pie-chart key="{{ $chartRealisasiBelanja->reactiveKey() }}"
+                                    :pie-chart-model="$chartRealisasiBelanja" />
+                            </div>
                         </div>
                         <div class="card-footer">
                             <span class="ref">Sumber Data : Aplikasi Sicaram</span>
@@ -882,9 +984,6 @@
 
     <script src="{{ asset('assets/js/slim.js') }}"></script>
     <script src="{{ asset('assets/js/ResizeSensor.js') }}"></script>
-    <script src="{{ asset('assets/lib/chart.js/js/Chart.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="{{ asset('assets/js/dashboard-opd/dashboard.js') }}"></script>
 
     <script>
     </script>
@@ -901,139 +1000,8 @@
     </script>
 
     <script>
-        $('#modalSuratMasuk, #modalSuratKeluar').on('shown.bs.modal', function () {
-        $('.select2-show-search').select2({
-          dropdownParent: $(this), // Menempatkan dropdown di dalam modal
-          width: '100%' // Mengatur lebar dropdown agar sesuai kolom
-        });
-      });
+        $('#modalSuratMasuk, #modalSuratKeluar').on('shown.bs.modal', function () {});
     </script>
 
-
-
-    <script>
-        var optionsSuratMasuk = {
-        series: [{
-          name: 'Jumlah Surat Masuk',
-          data: [44, 55, 57, 56]
-        }],
-        chart: {
-          type: 'bar',
-          height: 350
-        },
-        colors: ['#1E90FF', '#00CED1', '#FFD700', '#DC143C'],
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          style: {
-            colors: ['#333']
-          },
-          offsetY: 100,
-          position: 'top'
-        },
-        xaxis: {
-          categories: ['Total Surat Masuk', 'Belum Didisposisikan', 'Sudah Didisposisikan', 'Selesai'],
-          labels: {
-            rotate: -90,
-            style: {
-              fontSize: '10px'
-            }
-          }
-        },
-        yaxis: {
-          title: {
-            text: 'Jumlah Surat Masuk'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return " " + val + " ";
-            }
-          }
-        }
-      };
-
-      var optionsSuratKeluar = {
-        series: [{
-          name: 'Jumlah Surat Keluar',
-          data: [44, 55, 57, 56]
-        }],
-        chart: {
-          type: 'bar',
-          height: 350
-        },
-        colors: ['#FF4500', '#32CD32', '#8A2BE2', '#FFA07A'],
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          style: {
-            colors: ['#333']
-          },
-          offsetY: 100,
-          position: 'top'
-        },
-        xaxis: {
-          categories: ['Total Surat Keluar', 'Proses Verifikasi', 'Menunggu Tanda Tangan', 'Sudah Ditandatangani'],
-          labels: {
-            rotate: -90,
-            style: {
-              fontSize: '10px'
-            }
-          }
-        },
-        yaxis: {
-          title: {
-            text: 'Jumlah Surat Keluar'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return " " + val + " ";
-            }
-          }
-        }
-      };
-    </script>
-
-
-    <script>
-        // Ambil elemen dropdown dan daftar surat
-      document.getElementById("suratSelect").addEventListener("change", function (event) {
-        var selectedValue = event.target.value;
-
-        // Tampilkan daftar surat sesuai dengan pilihan
-        if (selectedValue === "SM") {
-          document.getElementById("ListSuratMasuk").style.display = "flex";
-          document.getElementById("ListSuratKeluar").style.display = "none";
-        } else if (selectedValue === "SK") {
-          document.getElementById("ListSuratMasuk").style.display = "none";
-          document.getElementById("ListSuratKeluar").style.display = "flex";
-        } else {
-          // Sembunyikan keduanya jika tidak ada yang dipilih
-          document.getElementById("ListSuratMasuk").style.display = "flex";
-          document.getElementById("ListSuratKeluar").style.display = "none";
-        }
-      });
-    </script>
     @endpush
 </div>

@@ -42,7 +42,9 @@ class Index extends Component
     {
         $arrInstances = DB::table('ref_instance')
             ->whereIn('semesta_id', $this->cookieSkpdBawahan)
+            ->where('sicaram_id', '!=', '0')
             ->get();
+
         $selectedInstanceKeuangan = null;
         if ($this->instanceIdKeuangan) {
             $selectedInstanceKeuangan = DB::table('ref_instance')
@@ -98,7 +100,7 @@ class Index extends Component
 
     function _getDataRealisasiKeuangan()
     {
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/chart-realisasi', [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/chart-realisasi', [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,
@@ -114,7 +116,7 @@ class Index extends Component
 
     function _getDataRealisasiKinerja()
     {
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/chart-kinerja', [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/chart-kinerja', [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,
@@ -130,7 +132,7 @@ class Index extends Component
 
     function _getDataRank()
     {
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/rank-instance', [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/rank-instance', [
             'periode' => $this->periode,
             'year' => $this->year,
             // 'instances' => $this->instanceIdKinerja, // multiple

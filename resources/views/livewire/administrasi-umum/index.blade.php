@@ -87,9 +87,13 @@ use Carbon\Carbon;
                                         <div class="col-12 col-lg-4">
                                             <div class="card card-activities pd-20">
                                                 <div style="width: 100%; height:400px">
+                                                    @if(isset($this->dataTotal['presensi']))
                                                     <livewire:livewire-pie-chart
                                                         key="{{ $chartDataRekapPresensi->reactiveKey() }}"
                                                         :pie-chart-model="$chartDataRekapPresensi" />
+                                                    @else
+                                                    @livewire('components.loading')
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -102,6 +106,7 @@ use Carbon\Carbon;
                                                     <span>Periode : Tanggal, Bulan & Tahun</span>
                                                 </div>
                                                 <div class="row row-sm justify-content-center">
+                                                    @if(isset($this->dataGrafikAbsensi['tanggal']))
                                                     <div class="col-12 col-md-3 mg-b-30">
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
@@ -157,12 +162,17 @@ use Carbon\Carbon;
                                                             @endforeach
                                                         </select>
                                                     </div>
+                                                    @endif
                                                 </div>
                                                 {{-- <div id="chartPresensiPeriodik"></div> --}}
                                                 <div style="width: 100%; height:300px">
+                                                    @if(isset($this->dataGrafikAbsensi['tanggal']))
                                                     <livewire:livewire-line-chart
                                                         key="{{ $chartPresensiMasukPulang->reactiveKey() }}"
                                                         :line-chart-model="$chartPresensiMasukPulang" />
+                                                    @else
+                                                    @livewire('components.loading')
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -179,6 +189,7 @@ use Carbon\Carbon;
                                             </div>
 
                                             <div class="row row-sm justify-content-center">
+                                                @if(isset($this->dataLKH['label']['data']))
                                                 <div class="col-12 col-md-3 mg-b-30">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -234,6 +245,7 @@ use Carbon\Carbon;
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -311,11 +323,14 @@ use Carbon\Carbon;
                                     <div class="row row-xs mg-t-30">
                                         <div class="col-12">
                                             <div class="card card-people-list pd-10">
-                                                {{-- <div id="capaianlkhPd"></div> --}}
                                                 <div style="width: 100%; height: 400px">
+                                                    @if(isset($this->dataLKH['label']['data']))
                                                     <livewire:livewire-column-chart
                                                         key="{{ $chartStatistikLKH->reactiveKey() }}"
                                                         :column-chart-model="$chartStatistikLKH" />
+                                                    @else
+                                                    @livewire('components.loading')
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div><!-- card -->
@@ -328,6 +343,7 @@ use Carbon\Carbon;
                                                 <h4><strong>Statistik</strong> Data TPP</h4>
                                             </div><!-- alert -->
                                             <div class="row row-sm justify-content-center">
+                                                @if(isset($this->dataTPP['grafik']))
                                                 <div class="col-12 col-md-3 mg-b-30">
                                                     <select class="form-control mg-b-30" x-init="
                                                             new TomSelect($el,{
@@ -389,6 +405,7 @@ use Carbon\Carbon;
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -459,9 +476,13 @@ use Carbon\Carbon;
                                         <div class="col-12 col-md-8">
                                             <div class="card card-activities pd-20">
                                                 <div style="width:100%; height: 400px">
+                                                    @if(isset($this->dataTPP['grafik']))
                                                     <livewire:livewire-line-chart
                                                         key="{{ $chartStatistikTPP->reactiveKey() }}"
                                                         :line-chart-model="$chartStatistikTPP" />
+                                                    @else
+                                                    @livewire('components.loading')
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -476,6 +497,8 @@ use Carbon\Carbon;
                                                 </h4>
                                             </div><!-- alert -->
                                             <div class="row row-sm justify-content-center">
+                                                @if(isset($this->dataSurat['naskah_masuk_linechart']) &&
+                                                isset($this->dataSurat['naskah_keluar_linechart']))
                                                 <div class="col-12 col-md-3 mg-b-30">
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -531,6 +554,7 @@ use Carbon\Carbon;
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -699,9 +723,14 @@ use Carbon\Carbon;
                                                 </h6>
                                                 <div class="card card-activities pd-20">
                                                     <div style="width:100%; height: 400px">
+                                                        @if(isset($this->dataSurat['naskah_masuk_linechart']) &&
+                                                        isset($this->dataSurat['naskah_keluar_linechart']))
                                                         <livewire:livewire-line-chart
                                                             key="{{ $chartChartNaskahSurat->reactiveKey() }}"
                                                             :line-chart-model="$chartChartNaskahSurat" />
+                                                        @else
+                                                        @livewire('components.loading')
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -744,10 +773,10 @@ use Carbon\Carbon;
     <script src="{{ asset('assets/js/ResizeSensor.js') }}"></script>
     <script src="{{ asset('assets/lib/jqvmap/js/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('assets/lib/jqvmap/js/jquery.vmap.world.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard-opd/semesta.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/dashboard-opd/semesta.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard-opd/guruku.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard-opd/sidesi.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard-opd/sinona.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard-opd/sinona.js') }}"></script> --}}
 
     <script src="{{ asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
     <script>

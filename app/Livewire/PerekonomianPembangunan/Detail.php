@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
+use Illuminate\Support\Facades\Cookie;
 
 class Detail extends Component
 {
     use LivewireAlert;
+    public $cookieUser = [], $cookieSkpdBawahan = [];
 
     #[Url(null, true)]
     public $view = 'keuangan';
@@ -26,10 +28,19 @@ class Detail extends Component
         if (!$code) {
             abort(404);
         }
-
+        $this->cookieUser = collect(json_decode(Cookie::get('seu', true)));
+        $this->cookieSkpdBawahan = collect(json_decode(Cookie::get('sesb', true)))->toArray();
         $this->instance = DB::table('ref_instance')
+            ->whereIn('semesta_id', $this->cookieSkpdBawahan)
             ->where('nomenklatur_code', $code)
             ->first();
+        if (!$this->instance) {
+            $this->flash('error', 'Mohon Maaf!', [
+                'text' => 'Halaman yang Anda Akses tidak dapat kami tampilkan!',
+                'toast' => false,
+                'position' => 'center',
+            ], route('perekonomian-pembangunan'));
+        }
         $this->year = date('Y');
     }
 
@@ -155,7 +166,7 @@ class Detail extends Component
 
     function _getDataSicaram()
     {
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/instance/' . $this->instance->sicaram_id, [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/instance/' . $this->instance->sicaram_id, [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,
@@ -171,7 +182,7 @@ class Detail extends Component
     function _getDetailProgram($program)
     {
         $this->selectedProgram = $program;
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/prg/' . $program['id'], [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/prg/' . $program['id'], [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,
@@ -193,7 +204,7 @@ class Detail extends Component
     function _getDetailKegiatan($kegiatan)
     {
         $this->selectedKegiatan = $kegiatan;
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/kgt/' . $kegiatan['id'], [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/kgt/' . $kegiatan['id'], [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,
@@ -214,7 +225,7 @@ class Detail extends Component
     function _getDetailSubKegiatan($SubKegiatan)
     {
         $this->selectedSubKegiatan = $SubKegiatan;
-        $response = Http::get('http://127.0.0.1:8000/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/skgt/' . $SubKegiatan['id'], [
+        $response = Http::get('https://sicaramapis.oganilirkab.go.id/api/local/dashboard/instance/' . $this->instance->sicaram_id . '/detail/skgt/' . $SubKegiatan['id'], [
             'periode' => $this->periode,
             'year' => $this->year,
             'view' => 1,

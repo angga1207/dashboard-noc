@@ -46,9 +46,67 @@
     @livewireChartsScripts
 
     @stack('styles')
+    <style>
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bouncing-dots {
+            display: flex;
+            justify-content: space-between;
+            width: 60px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            background-color: #4662d4;
+            border-radius: 50%;
+            animation: bounce 1.5s infinite;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
 </head>
 
 <body>
+
+    <div id="xb-loadding">
+        <div class="loader">
+            <div class="plane">
+                <img class="plane-img" src="{{ asset('assets/img/icon/plane.gif') }}" alt="">
+            </div>
+            <div class="earth-wrapper">
+                <div class="earth"></div>
+            </div>
+        </div>
+    </div>
 
     @livewire('components.header')
 

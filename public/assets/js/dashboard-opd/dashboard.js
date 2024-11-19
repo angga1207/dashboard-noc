@@ -48,7 +48,7 @@ var bulan = tw.getMonth();
 var tanggal = tw.getDate();
 var hariarray = new Array("Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,");
 var bulanarray = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-    "Oktober", "November", "Desember");
+    "Oktober", "Nopember", "Desember");
 document.getElementById("waktuAja").innerHTML = " Pukul : " + ((tw.getHours() < 10) ? "0" : "") + tw.getHours() +
     ":" +
     ((tw.getMinutes() <
@@ -66,21 +66,21 @@ var bulan = tw.getMonth();
 var tanggal = tw.getDate();
 var hariarray = new Array("Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,");
 var bulanarray = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-    "Oktober", "November", "Desember");
+    "Oktober", "Nopember", "Desember");
 document.getElementById("tanggalwaktu").innerHTML = hariarray[hari] + " " + tanggal + " " + bulanarray[bulan] +
     " " + tahun;
 
 // SELECT MODAL
 $(document).ready(function () {
     // Inisialisasi Datepicker
-    // $('.fc-datepicker').datepicker({
-    //   dateFormat: "mm/dd/yy"
-    // });
+    $('.fc-datepicker').datepicker({
+      dateFormat: "mm/dd/yy"
+    });
 
     // Inisialisasi Select2
-    // $('.select2-show-search').select2({
-    //   width: '100%'
-    // });
+    $('.select2-show-search').select2({
+      width: '100%'
+    });
 
     // Ketika filter diubah, perbarui daftar surat
     $('#modalSurat').on('change', 'input.fc-datepicker, .select2-show-search', function () {
@@ -182,7 +182,7 @@ chart.render();
       }
     }
   };
-
+  
   var chart = new ApexCharts(document.querySelector("#realisasiKegiatan"), options);
   chart.render();
 
@@ -220,7 +220,7 @@ chart.render();
         }
       }
     };
-
+    
     var chart = new ApexCharts(document.querySelector("#realisasiPendapatan"), options);
     chart.render();
 
@@ -259,53 +259,53 @@ chart.render();
             }
           }
         };
-
+        
         var chart = new ApexCharts(document.querySelector("#realisasiBelanja"), options);
         chart.render();
 
 
-        // // Chart Line
-        // var options = {
-        //   series: [{
-        //     name: 'Presensi',
-        //     data: [44, 55, 41, 17, 15, 44, 55, 41, 17, 15, 44, 55,] // Replace with appropriate y-axis data
-        //   }],
-        //   chart: {
-        //     type: 'line',
-        //     height: 375,
-        //   },
-        //   xaxis: {
-        //     categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',],// Labels for x-axis
-        //   },
-        //   title: {
-        //     text: 'Dinas Komunikasi Informatika Statistik dan Persandian',
-        //     align: 'left'
-        //   },
-        //   legend: {
-        //     position: 'bottom'
-        //   },
-        //   dataLabels: {
-        //     enabled: true,
-        //     formatter: function (val, opts) {
-        //       return opts.w.config.series[0].data[opts.dataPointIndex]; // Display actual data values
-        //     }
-        //   },
-        //   responsive: [{
-        //     breakpoint: 480,
-        //     options: {
-        //       chart: {
-        //         width: 200,
-        //       },
-        //       legend: {
-        //         position: 'bottom'
-        //       },
-        //     }
-        //   }]
-        // };
-
-        // var chart = new ApexCharts(document.querySelector("#chartPresensiSemestaDbLine"), options);
-        // chart.render();
-
+        // Chart Line
+        var options = {
+          series: [{
+            name: 'Presensi',
+            data: [44, 55, 41, 17, 15, 44, 55, 41, 17, 15, 44, 55,] // Replace with appropriate y-axis data
+          }],
+          chart: {
+            type: 'line',
+            height: 375,
+          },
+          xaxis: {
+            categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',],// Labels for x-axis
+          },
+          title: {
+            text: 'Dinas Komunikasi Informatika Statistik dan Persandian',
+            align: 'left'
+          },
+          legend: {
+            position: 'bottom'
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+              return opts.w.config.series[0].data[opts.dataPointIndex]; // Display actual data values
+            }
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
+              },
+              legend: {
+                position: 'bottom'
+              },
+            }
+          }]
+        };
+        
+        var chart = new ApexCharts(document.querySelector("#chartPresensiSemestaDbLine"), options);
+        chart.render();
+        
         // Realisasi Belanja
         var options = {
           series: [94, 55],
@@ -340,7 +340,7 @@ chart.render();
             }
           }
         };
-
+        
         var chart = new ApexCharts(document.querySelector("#jumlahAsnSemesta"), options);
         chart.render();
 
@@ -387,9 +387,9 @@ chart.render();
             }
           }]
         };
-
+        
         var chart = new ApexCharts(document.querySelector("#kondisiNonAsn"), options);
         chart.render();
-
-
-
+        
+        
+        

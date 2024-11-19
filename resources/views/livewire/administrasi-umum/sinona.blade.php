@@ -5,6 +5,8 @@ use Carbon\Carbon;
 ?>
 <div>
 
+    <div wire:init="_getData"></div>
+    <div wire:init="_getDataAbsen"></div>
     <div class="slim-mainpanel">
         <div class="container-fluid">
             <div class="row row-xs mg-t-10">
@@ -23,16 +25,24 @@ use Carbon\Carbon;
                                             <h5 style="margin-right: 30px;">Pilih Perangkat Daerah :</h5>
                                         </div>
                                         <div class="col-12 col-md-7">
-                                            <select class="wd-300 form-control select2-show-search"
-                                                data-placeholder="Pilih">
-                                                <option label="Pilih"></option>
-                                                <option value="Dinas Komunikasi dan Digital">Dinas Komunikasi dan
-                                                    Digital</option>
-                                                <option value="Dinas Sosial">Dinas Sosial</option>
-                                                <option value="Dinas Perikanan">Dinas Perikanan</option>
-                                                <option value="Bapenda">Bapenda</option>
-                                                <option value="Bappeda">Bappeda</option>
+                                            @if(isset($this->mainData['per_skpd']))
+                                            <select class="form-control wd-300" x-init="
+                                                new TomSelect($el,{
+                                                    create: false,
+                                                    sortField: {
+                                                        field: 'text',
+                                                        direction: 'asc'
+                                                    }
+                                                });
+                                                " style="width:100%" wire:model.live="selectedInstanceId">
+                                                <option value="">Kabupaten Ogan Ilir</option>
+                                                @foreach($arrInstances as $inst)
+                                                <option value="{{ $inst->sinona_id }}">
+                                                    {{ $inst->name }}
+                                                </option>
+                                                @endforeach
                                             </select>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -40,10 +50,21 @@ use Carbon\Carbon;
                                         <div class="col-12 col-md-4">
                                             <div class="card card-dash-chart-one mg-t-20 mg-sm-t-30">
                                                 <div class="card-header">
-                                                    <h6>Statistik Non-ASN Kabupaten Ogan Ilir</h6>
+                                                    <h6>
+                                                        Statistik Non-ASN
+                                                        {{ $selectedInstance->name ?? 'Kabupaten Ogan Ilir' }}
+                                                    </h6>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div id="kondisiNonAsn"></div>
+                                                    <div style="width: 100%; height: 300px">
+                                                        @if(isset($this->mainData['seluruh_pd']['pendidikan']))
+                                                        <livewire:livewire-pie-chart
+                                                            key="{{ $chartStatistikKabupaten->reactiveKey() }}"
+                                                            :pie-chart-model="$chartStatistikKabupaten" />
+                                                        @else
+                                                        @livewire('components.loading')
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,10 +72,39 @@ use Carbon\Carbon;
                                         <div class="col-12 col-md-4">
                                             <div class="card card-dash-chart-one mg-t-20 mg-sm-t-30">
                                                 <div class="card-header">
-                                                    <h6>Statistik Non-ASN Berdasarkan Perangkat Daerah</h6>
+                                                    <h6>
+                                                        @if($this->selectedInstance)
+                                                        Jumlah Non-ASN
+                                                        @else
+                                                        Statistik Non-ASN Berdasarkan Perangkat Daerah
+                                                        @endif
+                                                    </h6>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div id="kondisiNonAsnPerPd"></div>
+                                                    <div style="width: 100%; height: 300px">
+                                                        @if($this->selectedInstance)
+                                                        <div>
+                                                            Jumlah Non-ASN
+                                                        </div>
+                                                        <h1>
+                                                            @if(isset($this->mainData['seluruh_pd']['total_pegawai']))
+                                                            {{
+                                                            number_format($this->mainData['seluruh_pd']['total_pegawai'],0,',',',')
+                                                            }} Orang
+                                                            @else
+                                                            ...
+                                                            @endif
+                                                        </h1>
+                                                        @else
+                                                        @if(isset($this->mainData['per_skpd']))
+                                                        <livewire:livewire-pie-chart
+                                                            key="{{ $chartStatsitikOPD->reactiveKey() }}"
+                                                            :pie-chart-model="$chartStatsitikOPD" />
+                                                        @else
+                                                        @livewire('components.loading')
+                                                        @endif
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,7 +115,15 @@ use Carbon\Carbon;
                                                     <h6>Statistik Non-ASN Berdasarkan Jenjang Pendidikan</h6>
                                                 </div>
                                                 <div class="card-body">
-                                                    <div id="svg-sankey"></div>
+                                                    <div style="width: 100%; height: 300px">
+                                                        @if(isset($this->mainData['seluruh_pd']['pendidikan']))
+                                                        <livewire:livewire-column-chart
+                                                            key="{{ $chartPendidikan->reactiveKey() }}"
+                                                            :column-chart-model="$chartPendidikan" />
+                                                        @else
+                                                        @livewire('components.loading')
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,7 +149,15 @@ use Carbon\Carbon;
                                                 <div class="media">
                                                     <i class="icon ion-ios-person-outline tx-purple"></i>
                                                     <div class="media-body">
-                                                        <h1>32,604</h1>
+                                                        <h1>
+                                                            @if(isset($this->mainData['seluruh_pd']))
+                                                            {{
+                                                            number_format($this->mainData['seluruh_pd']['jumlah_presensi_masuk'],0,',',',')
+                                                            }}
+                                                            @else
+                                                            ...
+                                                            @endif
+                                                        </h1>
                                                         <p>Total Presensi Masuk</p>
                                                     </div><!-- media-body -->
                                                 </div><!-- media -->
@@ -103,7 +169,15 @@ use Carbon\Carbon;
                                                 <div class="media">
                                                     <i class="icon ion-android-walk tx-teal"></i>
                                                     <div class="media-body">
-                                                        <h1>17,583</h1>
+                                                        <h1>
+                                                            @if(isset($this->mainData['seluruh_pd']))
+                                                            {{
+                                                            number_format($this->mainData['seluruh_pd']['jumlah_presensi_pulang'],0,',',',')
+                                                            }}
+                                                            @else
+                                                            ...
+                                                            @endif
+                                                        </h1>
                                                         <p>Total Presensi Keluar</p>
                                                     </div><!-- media-body -->
                                                 </div><!-- media -->
@@ -119,6 +193,8 @@ use Carbon\Carbon;
                                                     <span>Periode : Tanggal, Bulan & Tahun</span>
                                                 </div>
                                                 <div class="row row-sm justify-content-center mg-t-10 mg-b-20">
+                                                    @if(isset($this->mainData['per_skpd']) && count($this->dataAbsenLog)
+                                                    > 0)
                                                     <div class="col-12 col-md-3">
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
@@ -126,10 +202,18 @@ use Carbon\Carbon;
                                                                     <i class="icon ion-calendar tx-16 lh-0 op-6"></i>
                                                                 </div>
                                                             </div>
-                                                            <input type="text" class="form-control fc-datepicker"
-                                                                placeholder="MM/DD/YYYY">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="MM/DD/YYYY" x-init="
+                                                                $($el).datepicker({
+                                                                    dateFormat: 'yy-mm-dd',
+                                                                    onSelect: function() {
+                                                                        var dateObject = $(this).val();
+                                                                        $wire.set('dateStart', dateObject)
+                                                                    }
+                                                                });
+                                                                " wire:model.change="dateStart">
                                                         </div>
-                                                    </div><!-- wd-200 -->
+                                                    </div>
                                                     <div class="col-12 col-md-3">
                                                         <div class="input-group">
                                                             <div class="input-group-prepend">
@@ -137,24 +221,46 @@ use Carbon\Carbon;
                                                                     <i class="icon ion-calendar tx-16 lh-0 op-6"></i>
                                                                 </div>
                                                             </div>
-                                                            <input type="text" class="form-control fc-datepicker"
-                                                                placeholder="MM/DD/YYYY">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="MM/DD/YYYY" x-init="
+                                                                $($el).datepicker({
+                                                                    dateFormat: 'yy-mm-dd',
+                                                                    onSelect: function() {
+                                                                        var dateObject = $(this).val();
+                                                                        $wire.set('dateEnd', dateObject)
+                                                                    }
+                                                                });
+                                                                " wire:model.change="dateEnd">
                                                         </div>
-                                                    </div><!-- wd-200 -->
+                                                    </div>
                                                     <div class="col-12 col-md-3">
-                                                        <select class="form-control select2-show-search"
-                                                            data-placeholder="Pilih">
-                                                            <option label="Pilih"></option>
-                                                            <option value="Dinas Komunikasi dan Digital">Dinas
-                                                                Komunikasi dan Digital</option>
-                                                            <option value="Dinas Sosial">Dinas Sosial</option>
-                                                            <option value="Dinas Perikanan">Dinas Perikanan</option>
-                                                            <option value="Bapenda">Bapenda</option>
-                                                            <option value="Bappeda">Bappeda</option>
+                                                        <select class="form-control wd-300" x-init="
+                                                            new TomSelect($el,{
+                                                                create: false,
+                                                                sortField: {
+                                                                    field: 'text',
+                                                                    direction: 'asc'
+                                                                }
+                                                            });
+                                                            " style="width:100%;" wire:model.live="selectedInstanceId">
+                                                            <option value="">Kabupaten Ogan Ilir</option>
+                                                            @foreach($arrInstances as $inst)
+                                                            <option value="{{ $inst->sinona_id }}">
+                                                                {{ $inst->name }}
+                                                            </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
+                                                    @endif
                                                 </div>
-                                                <div id="chartPresensiPeriodikSinona"></div>
+                                                <div style="width: 100%; height: 400px">
+                                                    @if(count($this->dataAbsenLog) > 0)
+                                                    <livewire:livewire-line-chart key="{{ $chartLine->reactiveKey() }}"
+                                                        :line-chart-model="$chartLine" />
+                                                    @else
+                                                    @livewire('components.loading')
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -168,5 +274,15 @@ use Carbon\Carbon;
             </div>
         </div>
     </div>
+
+
+    @push('styles')
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap4.min.css" />
+    @endpush
+
+    @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.js"></script>
+    @endpush
 
 </div>

@@ -16,6 +16,7 @@
                                 Capaian Keuangan Tahun {{ $year }}
                             </h6>
                             <div class="">
+                                @if(isset($this->dataKeuangan['target']) && isset($this->dataKeuangan['realisasi']))
                                 <select class="form-control mg-b-30" x-init="
                                 new TomSelect($el,{
                                     create: false,
@@ -32,6 +33,11 @@
                                     </option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select class="form-control mg-b-30" disabled>
+                                    <option value="">Kabupaten Ogan Ilir</option>
+                                </select>
+                                @endif
                             </div>
                             <div class="sec-01">
                                 <h2 class="tx-lato" style="font-weight: bold; white-space: nowrap;">
@@ -100,8 +106,12 @@
                             <div class="">
 
                                 <div style="width: 100%; height: 400px">
+                                    @if(isset($this->dataKeuangan['target']) && isset($this->dataKeuangan['realisasi']))
                                     <livewire:livewire-column-chart key="{{ $chartKeuangan->reactiveKey() }}"
                                         :column-chart-model="$chartKeuangan" />
+                                    @else
+                                    @livewire('components.loading')
+                                    @endif
                                 </div>
 
                             </div>
@@ -123,8 +133,12 @@
                             </h6>
                             <div class="">
                                 <div style="width: 100%; height: 400px">
+                                    @if(isset($this->dataKinerja['target']) && isset($this->dataKinerja['realisasi']))
                                     <livewire:livewire-column-chart key="{{ $chartKinerja->reactiveKey() }}"
                                         :column-chart-model="$chartKinerja" />
+                                    @else
+                                    @livewire('components.loading')
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -140,6 +154,7 @@
                                 Tahun {{ $year }}
                             </h6>
                             <div class="">
+                                @if(isset($this->dataKinerja['target']) && isset($this->dataKinerja['realisasi']))
                                 <select class="form-control mg-b-30" x-init="
                                 new TomSelect($el,{
                                     create: false,
@@ -156,6 +171,11 @@
                                     </option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select class="form-control mg-b-30" disabled>
+                                    <option value="">Kabupaten Ogan Ilir</option>
+                                </select>
+                                @endif
                             </div>
                             <div class="sec-01">
                                 <h1 class="tx-lato" style="font-weight: bold; white-space: nowrap">
@@ -202,14 +222,16 @@
             @if(count($this->cookieSkpdBawahan) > 1)
             {{-- Rank Start --}}
             <div wire:init="_getDataRank"></div>
-            <div class=" mt-4">
+            <div class="mt-4">
                 <h6 class="slim-card-title mb-3">
                     <i class="fa fa-universal-access mr-2"></i>
                     Peringkat Capaian Perangkat Daerah
                 </h6>
+                @if(count($dataRank) > 0)
                 <div class="row">
                     @foreach($dataRank as $inst)
-                    <a href="#" class="col-12 pb-3" style="cursor: pointer">
+                    <a href="{{ route('perekonomian-pembangunan.detail', ['code' => $inst['instance_code']]) }}"
+                        class="col-12 pb-3" style="cursor: pointer">
                         <div class="card card-sales bg-mantle">
                             <div class="d-flex justify-content-between gap-4" style="overflow-y: auto">
 
@@ -269,6 +291,9 @@
                     </a>
                     @endforeach
                 </div>
+                @else
+                @livewire('components.loading')
+                @endif
             </div>
             {{-- Rank End --}}
             @endif
