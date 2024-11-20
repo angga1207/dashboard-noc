@@ -160,7 +160,7 @@ html {
   display: flex;
   justify-content: center !important;
   align-items: center !important;
-  background: url('../img/bg_lanjutkerja.webp') no-repeat center center fixed;
+  background: url('../img/bg_login.png') no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -168,11 +168,14 @@ html {
 
 @media (max-width: 768px) {
   .signin-box {
-    background: rgba(248, 248, 248, 0.9) !important;
+    border: none !important;
+    /* background: rgba(248, 248, 248, 0.9) !important; */
+    background: transparent !important;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); */
     max-width: 95%;
+    text-align: center;
     z-index: 2;
   }
 
@@ -183,10 +186,14 @@ html {
 
 @media (min-width: 769px) {
   .signin-box {
-    background: rgba(248, 248, 248, 0.9) !important;
+    border: none !important;
+    margin: auto;
+    /* background: rgba(248, 248, 248, 0.9) !important; */
+    background: transparent !important;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); */
     width: 500px !important;
     z-index: 2;
   }

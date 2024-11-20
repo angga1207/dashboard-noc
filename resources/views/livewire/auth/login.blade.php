@@ -6,7 +6,10 @@
     <div class="signin-box">
         <img class="mg-b-20" src="assets/img/logo-oi.png" width="70" alt="">
         <h2 class="signin-title-primary">Selamat Datang!</h2>
-        <h3 class="signin-title-secondary">Aplikasi Dashboard Pimpinan</h3>
+        <h3 class="signin-title-secondary">
+            {{-- Aplikasi Dashboard Pimpinan --}}
+            Aplikasi DashOI
+        </h3>
 
         <!-- Login Form -->
         @if($this->loginType == 'semesta')
@@ -22,10 +25,11 @@
                     @enderror
                 </div>
             </div>
-            <div class="">
+            <div class="" x-data="{showPassword : false}">
                 <div class="form-group mg-b-15 password-container">
-                    <input type="password" class="form-control" placeholder="Kata Sandi" wire:model="password">
-                    <i class="fa fa-eye toggle-password" id="togglePassword"></i>
+                    <input :type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Kata Sandi"
+                        wire:model="password">
+                    <i class="fa fa-eye toggle-password" @click="showPassword = !showPassword"></i>
                 </div>
                 @error('password')
                 <div class="invalid-feedback d-block">

@@ -43,7 +43,7 @@
 
     <title>{{ isset($title) ? $title : env('APP_NAME') }}</title>
     {{-- @livewireScripts --}}
-    @livewireChartsScripts
+
 
     @stack('styles')
     <style>
@@ -137,6 +137,7 @@
     <x-livewire-alert::flash />
 
     @stack('scripts')
+    @livewireChartsScripts
 
 </body>
 

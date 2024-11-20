@@ -7,7 +7,7 @@
             <div class="slim-header-left">
                 <h2 class="slim-logo">
                     <a href="{{ route('home') }}">
-                        NOC<span>.</span>
+                        Dash OI<span>.</span>
                     </a>
                 </h2>
 

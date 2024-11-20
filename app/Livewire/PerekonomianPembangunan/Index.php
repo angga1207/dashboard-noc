@@ -137,7 +137,6 @@ class Index extends Component
             'year' => $this->year,
             // 'instances' => $this->instanceIdKinerja, // multiple
         ]);
-
         $response = collect(json_decode($response, true));
         if ($response['status'] == 'success') {
             $this->dataRank = $response['data'];

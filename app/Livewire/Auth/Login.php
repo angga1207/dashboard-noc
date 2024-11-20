@@ -38,7 +38,7 @@ class Login extends Component
 
     function loginSemesta()
     {
-        sleep(1);
+        // sleep(1);
         if ($this->username == 'developer') {
             $validasi = $this->validate([
                 'username' => 'required',
@@ -52,7 +52,7 @@ class Login extends Component
             $validasi = $this->validate([
                 'username' => 'required',
                 'password' => 'required',
-                // 'captcha' => 'required|captcha',
+                'captcha' => 'required|captcha',
             ], [
                 'username.exists' => 'Username tidak ditemukan.',
                 'captcha.captcha' => 'Enter valid captcha code shown in image',
@@ -90,8 +90,8 @@ class Login extends Component
                 $this->setCookieUser($resUser);
                 $this->setCookieSkpdBawahan($resSkpdBawahan);
 
-                $this->flash('success', 'Login Berhasil!', [
-                    'text' => 'Anda berhasil masuk ke aplikasi Dashboard Pimpinan',
+                $this->flash('success', 'Selamat Datang!', [
+                    'text' => 'Anda baru saja memasuki aplikasi DashOI.',
                     'toast' => false,
                     'position' => 'center',
                 ], route('home'));
