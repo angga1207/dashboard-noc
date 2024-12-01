@@ -26,7 +26,7 @@
                 <div class="dropdown dropdown-c" x-data="{showMenu : false}">
                     <a href="#" class="logged-user" data-toggle="dropdown" x-on:click="showMenu = !showMenu">
                         {{-- <i class="fa fa-user-circle" style="font-size: 18px;"></i> --}}
-                        <img src="{{ asset($user->photo) }}"
+                        <img wire:ignore src="{{ asset($user->photo) }}"
                             onerror="this.onerror=null;this.src='{{ asset('images/logo-oi.png') }}';"
                             style="object-fit: contain; width:40px;height:40px" />
                         <span>
