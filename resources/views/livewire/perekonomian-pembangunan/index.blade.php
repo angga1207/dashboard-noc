@@ -14,6 +14,7 @@
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
                                 Capaian Keuangan Tahun {{ $year }}
+                                <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
                                 @if(isset($this->dataKeuangan['target']) && isset($this->dataKeuangan['realisasi']))
@@ -102,6 +103,7 @@
                                 <i class="fa fa-universal-access mr-2"></i>
                                 Tabel Capaian Keuangan {{ $selectedInstanceKeuangan->name ?? 'Kabupaten Ogan Ilir' }}
                                 Tahun {{ $year }}
+                                <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
 
@@ -130,6 +132,8 @@
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
                                 Tabel Capaian Kinerja
+                                {{ $selectedInstanceKinerja->name ?? 'Kabupaten Ogan Ilir' }}
+                                <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
                                 <div style="width: 100%; height: 400px">
@@ -150,8 +154,9 @@
                         <div class="card-body pd-b-0">
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
-                                Capaian Kinerja {{ $selectedInstanceKinerja->name ?? 'Kabupaten Ogan Ilir' }}
+                                Capaian Kinerja
                                 Tahun {{ $year }}
+                                <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
                                 @if(isset($this->dataKinerja['target']) && isset($this->dataKinerja['realisasi']))

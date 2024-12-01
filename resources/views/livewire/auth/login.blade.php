@@ -11,6 +11,24 @@
             Aplikasi DashOI
         </h3>
 
+        <div class="mb-4">
+            <h4 class="text-center">
+                Masuk Menggunakan
+            </h4>
+        </div>
+        <div class="btn btn-primary btn-block btn-signin px-5 py-4" wire:click.prevent="$set('loginType', 'semesta')">
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <div class="mr-2">
+                    <img src="{{ asset('images/semesta-icon.png') }}" alt="" style="height:30px; object-fit:contain">
+                    {{-- <img src="{{ asset('images/semesta-logo.png') }}" alt=""
+                        style="width:100%; height:50px; object-fit:contain"> --}}
+                </div>
+                <h5 class="mb-0">
+                    SEMESTA
+                </h5>
+            </div>
+        </div>
+
         <!-- Login Form -->
         @if($this->loginType == 'semesta')
         <form wire:submit.prevent="loginSemesta">
@@ -69,7 +87,7 @@
         @endif
 
 
-        <hr>
+        {{-- <hr>
         <div class="mb-4">
             <h4 class="text-center">
                 Masuk Menggunakan
@@ -79,19 +97,27 @@
             <div class="col-6">
                 <div class="btn btn-primary btn-block btn-signin px-5 py-4"
                     wire:click.prevent="$set('loginType', 'semesta')">
-                    <h5 class="mb-0">
-                        SEMESTA
-                    </h5 class="mb-0">
+                    <div class="d-flex justify-content-center align-items-center gap-4">
+                        <div class="mr-2">
+                            <img src="{{ asset('images/semesta-icon.png') }}" alt=""
+                                style="height:30px; object-fit:contain">
+                            <img src="{{ asset('images/semesta-logo.png') }}" alt=""
+                                style="width:100%; height:50px; object-fit:contain">
+                        </div>
+                        <h5 class="mb-0">
+                            SEMESTA
+                        </h5>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="btn btn-primary btn-block btn-signin px-5 py-4" wire:click.prevent="isInDeveloped">
                     <h5 class="mb-0">
                         SICARAM
-                    </h5 class="mb-0">
+                    </h5>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="footers">
             <div class="row">

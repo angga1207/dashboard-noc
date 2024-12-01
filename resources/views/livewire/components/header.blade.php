@@ -6,17 +6,21 @@
         <div class="container-fluid">
             <div class="slim-header-left">
                 <h2 class="slim-logo">
-                    <a href="{{ route('home') }}">
+                    {{-- <a href="{{ route('home') }}">
                         Dash OI<span>.</span>
+                    </a> --}}
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo-dash-oi.png') }}" alt="Logo Dash OI"
+                            style="width:100%; height:50px; object-fit:contain">
                     </a>
                 </h2>
 
-                <div class="search-box">
+                <form class="search-box" wire:submit.prevent="goSearch">
                     <input type="text" class="form-control" placeholder="Search">
                     <button class="btn btn-primary">
                         <i class="fa fa-search"></i>
                     </button>
-                </div>
+                </form>
             </div>
             <div class="slim-header-right">
                 <div class="dropdown dropdown-c" x-data="{showMenu : false}">

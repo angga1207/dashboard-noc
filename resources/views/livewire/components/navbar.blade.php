@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
                     </a>
                 </li>
                 <li
-                    class="nav-item {{ str()->contains(Route::currentRouteName(), 'pemerintahan-kesra') ? 'active' : '' }}">
-                    <a class=" nav-link" href="{{ route('pemerintahan-kesra') }}">
+                    class="nav-item {{ str()->contains(Route::currentRouteName(), 'pemerintahan-kesra.kependudukan') ? 'active' : '' }}">
+                    <a class=" nav-link" href="{{ route('pemerintahan-kesra.kependudukan') }}">
                         <i class="icon ion-ios-book-outline"></i>
                         <span>Pemerintahan & Kesra</span>
                     </a>

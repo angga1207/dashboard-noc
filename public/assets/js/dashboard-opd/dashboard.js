@@ -48,7 +48,7 @@ var bulan = tw.getMonth();
 var tanggal = tw.getDate();
 var hariarray = new Array("Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,");
 var bulanarray = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-    "Oktober", "Nopember", "Desember");
+    "Oktober", "November", "Desember");
 document.getElementById("waktuAja").innerHTML = " Pukul : " + ((tw.getHours() < 10) ? "0" : "") + tw.getHours() +
     ":" +
     ((tw.getMinutes() <
@@ -66,7 +66,7 @@ var bulan = tw.getMonth();
 var tanggal = tw.getDate();
 var hariarray = new Array("Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,");
 var bulanarray = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-    "Oktober", "Nopember", "Desember");
+    "Oktober", "November", "Desember");
 document.getElementById("tanggalwaktu").innerHTML = hariarray[hari] + " " + tanggal + " " + bulanarray[bulan] +
     " " + tahun;
 
@@ -182,7 +182,7 @@ chart.render();
       }
     }
   };
-  
+
   var chart = new ApexCharts(document.querySelector("#realisasiKegiatan"), options);
   chart.render();
 
@@ -220,7 +220,7 @@ chart.render();
         }
       }
     };
-    
+
     var chart = new ApexCharts(document.querySelector("#realisasiPendapatan"), options);
     chart.render();
 
@@ -259,7 +259,7 @@ chart.render();
             }
           }
         };
-        
+
         var chart = new ApexCharts(document.querySelector("#realisasiBelanja"), options);
         chart.render();
 
@@ -302,10 +302,10 @@ chart.render();
             }
           }]
         };
-        
+
         var chart = new ApexCharts(document.querySelector("#chartPresensiSemestaDbLine"), options);
         chart.render();
-        
+
         // Realisasi Belanja
         var options = {
           series: [94, 55],
@@ -340,7 +340,7 @@ chart.render();
             }
           }
         };
-        
+
         var chart = new ApexCharts(document.querySelector("#jumlahAsnSemesta"), options);
         chart.render();
 
@@ -387,9 +387,9 @@ chart.render();
             }
           }]
         };
-        
+
         var chart = new ApexCharts(document.querySelector("#kondisiNonAsn"), options);
         chart.render();
-        
-        
-        
+
+
+

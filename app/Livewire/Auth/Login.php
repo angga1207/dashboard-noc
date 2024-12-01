@@ -14,7 +14,7 @@ class Login extends Component
     use LivewireAlert;
     public $username, $password;
     public $captcha, $captchaImg;
-    public $referal, $loginType = null;
+    public $referal, $loginType = 'semesta';
 
     public function mount()
     {

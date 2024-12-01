@@ -12,7 +12,9 @@ Route::get('/logout', App\Livewire\Auth\Logout::class)->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', App\Livewire\Home::class)->name('home');
 
-    Route::get('/pemerintahan-kesra', App\Livewire\PemerintahanKesra\Index::class)->name('pemerintahan-kesra');
+    Route::get('/pemerintahan-kesra/kependudukan', App\Livewire\PemerintahanKesra\Kependudukan::class)->name('pemerintahan-kesra.kependudukan');
+    Route::get('/pemerintahan-kesra/bantuan', App\Livewire\PemerintahanKesra\Bantuan::class)->name('pemerintahan-kesra.bantuan');
+    Route::get('/pemerintahan-kesra/kebencanaan', App\Livewire\PemerintahanKesra\Kebencanaan::class)->name('pemerintahan-kesra.kebencanaan');
 
     Route::get('/perekonomian-pembangunan', App\Livewire\PerekonomianPembangunan\Index::class)->name('perekonomian-pembangunan');
     Route::get('/perekonomian-pembangunan/{code}', App\Livewire\PerekonomianPembangunan\Detail::class)->name('perekonomian-pembangunan.detail');

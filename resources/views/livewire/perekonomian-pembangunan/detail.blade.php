@@ -26,6 +26,7 @@
                         <h6 class="slim-card-title mb-3">
                             <i class="fa fa-universal-access mr-2"></i>
                             {{ $instance->name }}
+                            <i class="fa fa-check text-success"></i>
                         </h6>
                         <div class="row">
                             <div class="col-12 col-xl-3 pb-5">
@@ -111,6 +112,7 @@
                         <h6 class="slim-card-title mb-3">
                             <i class="fa fa-universal-access mr-2"></i>
                             {{ $instance->name }}
+                            <i class="fa fa-check text-success"></i>
                         </h6>
                         <div class="row">
                             <div class="col-12 col-xl-3 pb-5">
@@ -181,6 +183,7 @@
                         <h6 class="slim-card-title mb-3">
                             <i class="fa fa-universal-access mr-2"></i>
                             Daftar Program {{ $instance->alias }}
+                            <i class="fa fa-check text-success"></i>
                         </h6>
 
                         <div class="row">

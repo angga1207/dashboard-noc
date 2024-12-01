@@ -31,6 +31,9 @@
     <meta name="description" content="{{ isset($title) ? $title : env('APP_DESCRIPTION') }}">
     <meta name="author" content="PUSDATIN | DISKOMINFO KABUPATEN OGAN ILIR">
 
+    <!-- favicon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+
     <!-- vendor css -->
     <link href="{{ asset('assets/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/lib/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
