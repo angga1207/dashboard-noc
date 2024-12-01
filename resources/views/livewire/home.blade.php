@@ -33,7 +33,7 @@ use Carbon\Carbon;
                         <div class="card-body">
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
-                                Agenda Kegiatan(semesta)
+                                Agenda Kegiatan(Jadwalin Bae)
                             </h6>
 
                             <!-- MODAL EFFECTS -->
@@ -412,7 +412,7 @@ use Carbon\Carbon;
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive">
+                                            <div class="table-responsive" style="height: calc(100vh - 300px)">
                                                 <table class="table table-bordered table-colored table-primary">
                                                     <thead>
                                                         <tr>
@@ -583,7 +583,7 @@ use Carbon\Carbon;
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive">
+                                            <div class="table-responsive" style="height: calc(100vh - 300px)">
                                                 <table class="table table-bordered table-colored table-indigo">
                                                     <thead>
                                                         <tr>

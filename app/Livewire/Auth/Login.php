@@ -15,11 +15,18 @@ class Login extends Component
     public $username, $password;
     public $captcha, $captchaImg;
     public $referal, $loginType = 'semesta';
+    public $attempt = 0;
 
     public function mount()
     {
         $this->captchaImg = captcha_img('default');
         $this->referal = url()->previous();
+
+        // Cookie::forget('failAttempt');
+
+        if (Cookie::get('failAttempt')) {
+            $this->attempt = Cookie::get('failAttempt');
+        }
     }
 
 
@@ -49,14 +56,25 @@ class Login extends Component
                 'captcha.captcha' => 'Enter valid captcha code shown in image',
             ], ['captcha' => 'Captcha']);
         } else {
-            $validasi = $this->validate([
-                'username' => 'required',
-                'password' => 'required',
-                'captcha' => 'required|captcha',
-            ], [
-                'username.exists' => 'Username tidak ditemukan.',
-                'captcha.captcha' => 'Enter valid captcha code shown in image',
-            ], ['captcha' => 'Captcha']);
+            if ($this->attempt >= 5) {
+                $validasi = $this->validate([
+                    'username' => 'required',
+                    'password' => 'required',
+                    'captcha' => 'required|captcha',
+                ], [
+                    'username.exists' => 'Username tidak ditemukan.',
+                    'captcha.captcha' => 'Enter valid captcha code shown in image',
+                ], ['captcha' => 'Captcha']);
+            } else {
+                $validasi = $this->validate([
+                    'username' => 'required',
+                    'password' => 'required',
+                    'captcha' => 'nullable|captcha',
+                ], [
+                    'username.exists' => 'Username tidak ditemukan.',
+                    'captcha.captcha' => 'Enter valid captcha code shown in image',
+                ], ['captcha' => 'Captcha']);
+            }
         }
 
         // https://semesta.oganilirkab.go.id/api/auth-user
@@ -90,11 +108,30 @@ class Login extends Component
                 $this->setCookieUser($resUser);
                 $this->setCookieSkpdBawahan($resSkpdBawahan);
 
+                Cookie::queue('failAttempt', 0, 1);
+
                 $this->flash('success', 'Selamat Datang!', [
                     'text' => 'Anda baru saja memasuki aplikasi DashOI.',
                     'toast' => false,
                     'position' => 'center',
                 ], route('home'));
+            }
+        } elseif ($response->status() == 401) {
+            $this->attempt++;
+            Cookie::queue('failAttempt', $this->attempt, 1);
+            if ($this->attempt >= 5) {
+                $this->alert('error', 'Username atau Password Salah', [
+                    'text' => 'Anda Sudah Gagal 5x Percobaan Login. Silahkan coba lagi dengan memasukkan Captcha.',
+                    'toast' => false,
+                    'position' => 'center',
+                ]);
+                $this->reloadCaptcha();
+            } else {
+                $this->alert('error', 'Username atau Password Salah',[
+                    'text' => 5 - $this->attempt . ' kali Percobaan Login lagi.',
+                    'toast' => false,
+                    'position' => 'center',
+                ]);
             }
         } else {
             $this->alert('error', 'Terjadi Kesalahan Pada Server Semesta');

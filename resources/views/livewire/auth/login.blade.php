@@ -57,6 +57,7 @@
                 @enderror
             </div>
 
+            @if($this->attempt >= 5)
             <!-- Custom CAPTCHA: Display Random 4-Digit Number -->
             <div class="form-group rechaptcha_custom">
                 <div class="d-flex flex-column justify-content-center gap-2">
@@ -80,6 +81,7 @@
                 </div>
                 @enderror
             </div>
+            @endif
             <div class="form-group mg-t-20">
                 <button type="submit" class="btn btn-primary btn-block btn-signin">Masuk</button>
             </div>
