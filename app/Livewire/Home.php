@@ -18,7 +18,7 @@ class Home extends Component
 
     public $arrMonths = [], $arrYears = [], $arrStatus = [], $arrStatusSuratKeluar = [];
 
-    public $dateAgenda = null, $dataAgenda = [];
+    public $dateAgenda = null, $dataAgenda = [], $detailAgenda = [];
     public $dataPegawaiASN = [];
 
     function mount()
@@ -245,6 +245,12 @@ class Home extends Component
             $this->dateAgenda = $date;
             // dd($this->dataAgenda);
         }
+    }
+
+    function getDetailAgenda($data)
+    {
+        $this->detailAgenda = $data;
+        // dd($data);
     }
 
     function _getJumlahASN()

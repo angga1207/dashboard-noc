@@ -41,12 +41,13 @@ use Carbon\Carbon;
                             </h6>
 
                             <!-- MODAL EFFECTS -->
-                            <div id="modalAgenda" class="modal fade">
+                            <div wire:ignore.self id="modalAgenda" class="modal fade">
                                 <div class="modal-dialog">
                                     <div class="modal-content bd-0 tx-14">
                                         <div class="modal-header pd-y-20 pd-x-25">
                                             <div class="d-flex justify-content-between">
-                                                <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Detail Agenda
+                                                <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">
+                                                    Detail Agenda
                                                 </h6>
                                             </div>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -69,70 +70,125 @@ use Carbon\Carbon;
                                                                 style="width: 100px; height: 100px;" loop autoplay>
                                                             </dotlottie-player>
                                                             <h5 class="mg-t-10 mg-b-5">
-                                                                <a href="" class="contact-name">Judul Agenda Lorem ipsum
-                                                                    dolor sit amet...</a>
+                                                                <a href="" class="contact-name">
+                                                                    {{ $detailAgenda['nama_acara'] ?? '' }}
+                                                                </a>
                                                             </h5>
-                                                            <p>Leading Sector : Dinas Komunikasi Informatika Statistik
-                                                                dan Persandian</p>
+                                                            <p class="mb-0">
+                                                                Leading Sector :
+                                                            </p>
+                                                            @if(isset($detailAgenda['leading_sector']))
+                                                            <p>
+                                                                @foreach($detailAgenda['leading_sector'] as $sector)
+                                                                {{ $sector }} @if(!$loop->last), @endif
+                                                                @endforeach
+                                                            </p>
+                                                            @endif
                                                         </div>
 
 
                                                         <p class="contact-item">
                                                             <span>Hari:</span>
-                                                            <span>Senin, 4 November 2024</span>
-                                                        </p><!-- contact-item -->
+                                                            <span>
+                                                                @if(isset($detailAgenda['tanggal_pelaksanaan']))
+                                                                {{
+                                                                Carbon::parse($detailAgenda['tanggal_pelaksanaan'])->isoFormat('dddd')
+                                                                }}
+                                                                @endif
+                                                            </span>
+                                                        </p>
                                                         <p class="contact-item">
                                                             <span>Waktu:</span>
-                                                            <a href="">08:30 WIB s.d Selesai</a>
-                                                        </p><!-- contact-item -->
+                                                            <a href="">
+                                                                @if(isset($detailAgenda['tanggal_pelaksanaan']))
+                                                                {{
+                                                                Carbon::parse($detailAgenda['tanggal_pelaksanaan'])->isoFormat('HH:mm')
+                                                                }}
+                                                                @endif
+                                                            </a>
+                                                        </p>
                                                         <p class="contact-item">
                                                             <span>Lokasi:</span>
-                                                            <a href="">Ruang Rapat Utama Bupati</a>
-                                                        </p><!-- contact-item -->
+                                                            @if(isset($detailAgenda['tempat_pelaksanaan_array']))
+                                                            @foreach($detailAgenda['tempat_pelaksanaan_array'] as $t)
+                                                            <a href="#">
+                                                                {{ $t }} @if(!$loop->last), @endif
+                                                            </a>
+                                                            @endforeach
+                                                            @endif
+                                                        </p>
                                                         <p class="contact-item">
                                                             <span>Pakaian:</span>
-                                                            <a href="">Yang berlaku hari itu</a>
-                                                        </p><!-- contact-item -->
+                                                            @if(isset($detailAgenda['dresscode']))
+                                                            <a href="#">
+                                                                {{ $detailAgenda['dresscode'] }}
+                                                            </a>
+                                                            @endif
+                                                        </p>
                                                         <p class="contact-item">
                                                             <span>Dihadiri Oleh:</span>
-                                                            <a href="">Bupati</a>
-                                                        </p><!-- contact-item -->
+                                                            @if(isset($detailAgenda['dihadiri']))
+                                                            @foreach($detailAgenda['dihadiri'] as $peserta)
+                                                            <a href="#">
+                                                                {{ $peserta['nama_jabatan'] }} @if(!$loop->last), @endif
+                                                            </a>
+                                                            @endforeach
+                                                            @endif
+                                                        </p>
                                                         <p class="contact-item">
                                                             <span>Turut diundang :</span>
+                                                            @if(isset($detailAgenda['diundang']))
                                                         <ul class="list-group">
+                                                            @foreach($detailAgenda['diundang'] as $diundang)
                                                             <li class="list-group-item">
-                                                                <p class="mg-b-0"><strong
-                                                                        class="tx-inverse tx-medium">Dinas
-                                                                        Sosial</strong></p>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                <p class="mg-b-0"><strong
-                                                                        class="tx-inverse tx-medium">Dinas
-                                                                        Kesehatan</strong></p>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                <p class="mg-b-0"><strong
-                                                                        class="tx-inverse tx-medium">Dinas
-                                                                        Perkimtan</strong></p>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                <p class="mg-b-0"><strong
-                                                                        class="tx-inverse tx-medium">Dinas PUPR</strong>
+                                                                <p class="mg-b-0">
+                                                                    <strong class="tx-inverse tx-medium">
+                                                                        {{ $diundang['nama_jabatan'] }}
+                                                                    </strong>
                                                                 </p>
                                                             </li>
+                                                            @endforeach
                                                         </ul>
-                                                        </p><!-- contact-item -->
+                                                        @endif
+                                                        </p>
+
                                                         <p class="contact-item">
-                                                            <span>Tambahkan Item Lainnya:</span>
-                                                            <a href="">Lorem ipsum dolor sit amet.</a>
-                                                        </p><!-- contact-item -->
+                                                            <span>Pendamping :</span>
+                                                            @if(isset($detailAgenda['pendamping']))
+                                                        <ul class="list-group">
+                                                            @foreach($detailAgenda['pendamping'] as $pendamping)
+                                                            <li class="list-group-item">
+                                                                <p class="mg-b-0">
+                                                                    <strong class="tx-inverse tx-medium">
+                                                                        {{ $pendamping['nama_jabatan'] }}
+                                                                    </strong>
+                                                                </p>
+                                                            </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        @endif
+                                                        </p>
+
                                                         <p class="contact-item">
-                                                            <span>Tambahkan Item Lainnya:</span>
-                                                            <a href="">Lorem ipsum dolor sit amet.</a>
-                                                        </p><!-- contact-item -->
+                                                            <span>OPD :</span>
+                                                            @if(isset($detailAgenda['opd']))
+                                                        <ul class="list-group">
+                                                            @foreach($detailAgenda['opd'] as $opd)
+                                                            <li class="list-group-item">
+                                                                <p class="mg-b-0">
+                                                                    <strong class="tx-inverse tx-medium">
+                                                                        {{ $opd['nama_opd'] }}
+                                                                    </strong>
+                                                                </p>
+                                                            </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        @endif
+                                                        </p>
+
                                                     </div><!-- card -->
                                                 </div><!-- col-9 -->
-                                            </div><!-- row -->
+                                            </div>
 
                                         </div>
                                         <div class="modal-footer">
@@ -168,14 +224,16 @@ use Carbon\Carbon;
                                                 </span>
                                             </div><!-- d-flex -->
                                             <h6 class="tx-14 mg-t-10">
-                                                <a href="#modalAgenda" data-toggle="modal"
+                                                <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
+                                                    href="#modalAgenda" data-toggle="modal"
                                                     class="modal-effect tx-inverse">
                                                     <i class="fa fa-bookmark mr-2"></i>
                                                     {{ $agenda['nama_acara'] }}
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
-                                                <a href="#modalAgenda" data-toggle="modal"
+                                                <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
+                                                    href="#modalAgenda" data-toggle="modal"
                                                     class="modal-effect tx-inverse">
                                                     <i class="fa fa-user mr-2"></i>
                                                     Leading Sector : <br>
@@ -185,7 +243,8 @@ use Carbon\Carbon;
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
-                                                <a href="#modalAgenda" data-toggle="modal"
+                                                <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
+                                                    href="#modalAgenda" data-toggle="modal"
                                                     class="modal-effect tx-inverse">
                                                     <i class="fa fa-university mr-2"></i>
                                                     Lokasi : <br>
@@ -195,7 +254,8 @@ use Carbon\Carbon;
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
-                                                <a href="#modalAgenda" data-toggle="modal"
+                                                <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
+                                                    href="#modalAgenda" data-toggle="modal"
                                                     class="modal-effect tx-inverse">
                                                     <i class="fa fa-users mr-2"></i>
                                                     Dihadiri Oleh : <br>
