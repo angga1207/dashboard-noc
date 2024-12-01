@@ -18,6 +18,8 @@ class Home extends Component
 
     public $arrMonths = [], $arrYears = [], $arrStatus = [], $arrStatusSuratKeluar = [];
 
+    public $dateAgenda = null, $dataAgenda = [];
+
     function mount()
     {
         $this->cookieUser = collect(json_decode(Cookie::get('seu', true)));
@@ -223,6 +225,24 @@ class Home extends Component
         if ($response['message'] == 'success') {
             $this->dataSuratKeluar = $response['data'];
             // dd($this->dataSuratKeluar);
+        }
+    }
+
+    function _getAgendaJadwalinBae()
+    {
+        // https://jadwalinbae.oganilirkab.go.id/api/jadwalv2?tanggal=2024-11-30
+        $date = '2024-11-30';
+        // $date = Carbon::now()->format('Y-m-d');
+
+        $response = Http::get('https://jadwalinbae.oganilirkab.go.id/api/jadwalv2', [
+            'tanggal' => $date,
+        ]);
+
+        $response = collect(json_decode($response, true));
+        if ($response['data'] != null) {
+            $this->dataAgenda = $response['data'];
+            $this->dateAgenda = $date;
+            // dd($this->dataAgenda);
         }
     }
 }

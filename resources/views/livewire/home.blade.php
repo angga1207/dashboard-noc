@@ -4,6 +4,8 @@ use Carbon\Carbon;
 
 ?>
 <div>
+    <div wire:init="_getAgendaJadwalinBae"></div>
+    <div wire:init="_getSuratSemesta"></div>
 
     <div class="slim-mainpanel">
         <div class="container-fluid pd-t-20">
@@ -33,7 +35,7 @@ use Carbon\Carbon;
                         <div class="card-body">
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
-                                Agenda Kegiatan(Jadwalin Bae)
+                                Agenda Kegiatan(Jadwalin Bae) <i class="fa fa-check text-success"></i>
                             </h6>
 
                             <!-- MODAL EFFECTS -->
@@ -141,154 +143,73 @@ use Carbon\Carbon;
                             <div class="agenda">
                                 <div class="card bd-0">
                                     <div class="card-header tx-medium bd-0 tx-white bg-mantle">
-                                        Agenda Hari Ini
-                                    </div><!-- card-header -->
+                                        {{-- Agenda Hari Ini --}}
+                                        Agenda {{ Carbon::parse($this->dateAgenda)->isoFormat('dddd, D MMMM Y') }}
+                                    </div>
                                     <div class="container-agenda" style="max-height: 600px; overflow-y: scroll;">
+
+                                        @forelse($this->dataAgenda as $agenda)
                                         <div class="card-body item-agenda bd bd-t-0 bg-custom">
                                             <div class="d-flex justify-content-between mg-b-2">
                                                 <div class="tx-14">
-                                                    <a href="" class="tx-gray-500"><i class="icon ion-star"></i></a>
-                                                    <a href="" class="tx-gray-500 mg-l-5"><i
-                                                            class="icon ion-android-attach"></i></a>
+                                                    <a href="" class="tx-gray-500">
+                                                        <i class="icon ion-star"></i>
+                                                    </a>
+                                                    <a href="" class="tx-gray-500 mg-l-5">
+                                                        <i class="icon ion-android-attach"></i>
+                                                    </a>
                                                 </div>
-                                                <span class="tx-12">Rabu, 26 Nov 2024 | 09:30:00 WB</span>
+                                                <span class="tx-12">
+                                                    {{-- Rabu, 26 Nov 2024 | 09:30:00 WB --}}
+                                                    {{ Carbon::parse($agenda['tanggal_pelaksanaan'])->isoFormat('dddd, D
+                                                    MMMM Y') }}
+                                                </span>
                                             </div><!-- d-flex -->
-                                            <h6 class="tx-14 mg-t-10"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-bookmark mr-2"></i>Judul
-                                                    Agenda Kegiatan</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-user mr-2"></i>Leading
-                                                    Sector :
-                                                    Diskominfo</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-university mr-2"></i>Lokasi :
-                                                    Rapat
-                                                    Utama
-                                                    Bupati</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-users mr-2"></i>Dihadiri Oleh :
-                                                    Bupati</a></h6>
-                                        </div><!-- card-body -->
+                                            <h6 class="tx-14 mg-t-10">
+                                                <a href="#modalAgenda" data-toggle="modal"
+                                                    class="modal-effect tx-inverse">
+                                                    <i class="fa fa-bookmark mr-2"></i>
+                                                    {{ $agenda['nama_acara'] }}
+                                                </a>
+                                            </h6>
+                                            <h6 class="tx-14">
+                                                <a href="#modalAgenda" data-toggle="modal"
+                                                    class="modal-effect tx-inverse">
+                                                    <i class="fa fa-user mr-2"></i>
+                                                    Leading Sector : <br>
+                                                    @foreach($agenda['leading_sector'] as $sector)
+                                                    {{ $sector }} @if(!$loop->last), @endif
+                                                    @endforeach
+                                                </a>
+                                            </h6>
+                                            <h6 class="tx-14">
+                                                <a href="#modalAgenda" data-toggle="modal"
+                                                    class="modal-effect tx-inverse">
+                                                    <i class="fa fa-university mr-2"></i>
+                                                    Lokasi : <br>
+                                                    @foreach($agenda['tempat_pelaksanaan_array'] as $tempat)
+                                                    {{ $tempat }} @if(!$loop->last), @endif
+                                                    @endforeach
+                                                </a>
+                                            </h6>
+                                            <h6 class="tx-14">
+                                                <a href="#modalAgenda" data-toggle="modal"
+                                                    class="modal-effect tx-inverse">
+                                                    <i class="fa fa-users mr-2"></i>
+                                                    Dihadiri Oleh : <br>
+                                                    @foreach($agenda['dihadiri'] as $peserta)
+                                                    {{ $peserta['nama_jabatan'] }} @if(!$loop->last), @endif
+                                                    @endforeach
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        @empty
                                         <div class="card-body item-agenda bd bd-t-0 bg-custom">
-                                            <div class="d-flex justify-content-between mg-b-2">
-                                                <div class="tx-14">
-                                                    <a href="" class="tx-gray-500"><i class="icon ion-star"></i></a>
-                                                    <a href="" class="tx-gray-500 mg-l-5"><i
-                                                            class="icon ion-android-attach"></i></a>
-                                                </div>
-                                                <span class="tx-12">Rabu, 26 Nov 2024 | 09:30:00 WB</span>
-                                            </div><!-- d-flex -->
-                                            <h6 class="tx-14 mg-t-10"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-bookmark mr-2"></i>Judul
-                                                    Agenda Kegiatan</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-user mr-2"></i>Leading
-                                                    Sector :
-                                                    Diskominfo</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-university mr-2"></i>Lokasi :
-                                                    Rapat
-                                                    Utama
-                                                    Bupati</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-users mr-2"></i>Dihadiri Oleh :
-                                                    Bupati</a></h6>
-                                        </div><!-- card-body -->
-                                        <div class="card-body item-agenda bd bd-t-0 bg-custom">
-                                            <div class="d-flex justify-content-between mg-b-2">
-                                                <div class="tx-14">
-                                                    <a href="" class="tx-gray-500"><i class="icon ion-star"></i></a>
-                                                    <a href="" class="tx-gray-500 mg-l-5"><i
-                                                            class="icon ion-android-attach"></i></a>
-                                                </div>
-                                                <span class="tx-12">Rabu, 26 Nov 2024 | 09:30:00 WB</span>
-                                            </div><!-- d-flex -->
-                                            <h6 class="tx-14 mg-t-10"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-bookmark mr-2"></i>Judul
-                                                    Agenda Kegiatan</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-user mr-2"></i>Leading
-                                                    Sector :
-                                                    Diskominfo</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-university mr-2"></i>Lokasi :
-                                                    Rapat
-                                                    Utama
-                                                    Bupati</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-users mr-2"></i>Dihadiri Oleh :
-                                                    Bupati</a></h6>
-                                        </div><!-- card-body -->
-                                        <div class="card-body item-agenda bd bd-t-0 bg-custom">
-                                            <div class="d-flex justify-content-between mg-b-2">
-                                                <div class="tx-14">
-                                                    <a href="" class="tx-gray-500"><i class="icon ion-star"></i></a>
-                                                    <a href="" class="tx-gray-500 mg-l-5"><i
-                                                            class="icon ion-android-attach"></i></a>
-                                                </div>
-                                                <span class="tx-12">Rabu, 26 Nov 2024 | 09:30:00 WB</span>
-                                            </div><!-- d-flex -->
-                                            <h6 class="tx-14 mg-t-10"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-bookmark mr-2"></i>Judul
-                                                    Agenda Kegiatan</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-user mr-2"></i>Leading
-                                                    Sector :
-                                                    Diskominfo</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-university mr-2"></i>Lokasi :
-                                                    Rapat
-                                                    Utama
-                                                    Bupati</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-users mr-2"></i>Dihadiri Oleh :
-                                                    Bupati</a></h6>
-                                        </div><!-- card-body -->
-                                        <div class="card-body item-agenda bd bd-t-0 bg-custom">
-                                            <div class="d-flex justify-content-between mg-b-2">
-                                                <div class="tx-14">
-                                                    <a href="" class="tx-gray-500"><i class="icon ion-star"></i></a>
-                                                    <a href="" class="tx-gray-500 mg-l-5"><i
-                                                            class="icon ion-android-attach"></i></a>
-                                                </div>
-                                                <span class="tx-12">Rabu, 26 Nov 2024 | 09:30:00 WB</span>
-                                            </div><!-- d-flex -->
-                                            <h6 class="tx-14 mg-t-10"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-bookmark mr-2"></i>Judul
-                                                    Agenda Kegiatan</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-user mr-2"></i>Leading
-                                                    Sector :
-                                                    Diskominfo</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-university mr-2"></i>Lokasi :
-                                                    Rapat
-                                                    Utama
-                                                    Bupati</a></h6>
-                                            <h6 class="tx-14"><a href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse"><i
-                                                        class="fa fa-users mr-2"></i>Dihadiri Oleh :
-                                                    Bupati</a></h6>
-                                        </div><!-- card-body -->
+                                            <div class="">
+                                                <h6 class="tx-14 mg-t-10">Tidak ada agenda hari ini</h6>
+                                            </div>
+                                        </div>
+                                        @endforelse
 
                                     </div>
 
@@ -313,7 +234,6 @@ use Carbon\Carbon;
                             </h6>
                         </div>
 
-                        <div wire:init="_getSuratSemesta"></div>
                         <!-- List Surat Masuk -->
                         <div class="row row-sm mg-t-20" id="ListSuratMasuk">
                             <div class="col-12">
@@ -438,8 +358,8 @@ use Carbon\Carbon;
                                                                 </span>
                                                                 <br>
                                                                 <span class="badge badge-info">
-                                                                    {{ $data['skpd_id'] }}
-                                                                    [skpd_id = {{ $data['skpd_id'] }}]
+                                                                    {{-- {{ $data['naskah_keluar']['skpd_pengirim']['nama_skpd'] ?? '' }} --}}
+                                                                    {{ $data['naskah_keluar']['skpd_pengirim']['nama_skpd_alias'] ?? '' }}
                                                                 </span>
                                                             </td>
                                                             <td>
@@ -450,13 +370,11 @@ use Carbon\Carbon;
                                                             </td>
                                                             <td>
                                                                 <div>
-                                                                    {{ $data['naskah_keluar']['pegawai_created_id'] ??
-                                                                    '-' }}[pegawai_created_id =
-                                                                    {{ $data['naskah_keluar']['pegawai_created_id'] }}]
+                                                                    {{ $data['naskah_keluar']['pegawai_created']['nama_lengkap'] ?? '-' }}
                                                                     -
                                                                 </div>
                                                                 <div>
-                                                                    [jabatan_no_data]
+                                                                    {{ $data['naskah_keluar']['pegawai_created']['jabatan'] ?? '-' }}
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -612,8 +530,8 @@ use Carbon\Carbon;
                                                                 </span>
                                                                 <br>
                                                                 <span class="badge badge-info">
-                                                                    {{ $data['skpd_pengirim_id'] }}
-                                                                    [skpd_pengirim_id = {{ $data['skpd_pengirim_id'] }}]
+                                                                    {{-- {{ $data['skpd_pengirim']['nama_skpd'] ?? '' }} --}}
+                                                                    {{ $data['skpd_pengirim']['nama_skpd_alias'] ?? '' }}
                                                                 </span>
                                                             </td>
                                                             <td>
@@ -624,13 +542,12 @@ use Carbon\Carbon;
                                                             </td>
                                                             <td>
                                                                 <div>
-                                                                    {{ $data['pegawai_created_id'] ??
-                                                                    '-' }}[pegawai_created_id =
-                                                                    {{ $data['pegawai_created_id'] }}]
-                                                                    -
+                                                                    {{ $data['pegawai_created']['nama_lengkap'] ??
+                                                                    '-' }} -
                                                                 </div>
                                                                 <div>
-                                                                    [jabatan_no_data]
+                                                                    {{ $data['pegawai_created']['jabatan'] ??
+                                                                    '-' }}
                                                                 </div>
                                                             </td>
                                                             <td>
