@@ -6,9 +6,10 @@
     <div class="signin-box">
         <img class="mg-b-20" src="assets/img/logo-oi.png" width="70" alt="">
         <h2 class="signin-title-primary">Selamat Datang!</h2>
-        <h3 class="signin-title-secondary">
-            {{-- Aplikasi Dashboard Pimpinan --}}
-            Aplikasi DashOI
+        <h3 class="signin-title-secondary mb-5">
+            <img src="{{ asset('images/logo-dash-oi.png') }}" alt="Logo Dash OI"
+                style="width:100%; height:50px; object-fit:contain">
+            {{-- Aplikasi DashOI --}}
         </h3>
 
         <div class="mb-4">
@@ -87,7 +88,8 @@
         @endif
 
 
-        {{-- <hr>
+        {{--
+        <hr>
         <div class="mb-4">
             <h4 class="text-center">
                 Masuk Menggunakan
