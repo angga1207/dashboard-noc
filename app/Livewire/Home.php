@@ -19,6 +19,7 @@ class Home extends Component
     public $arrMonths = [], $arrYears = [], $arrStatus = [], $arrStatusSuratKeluar = [];
 
     public $dateAgenda = null, $dataAgenda = [];
+    public $dataPegawaiASN = [];
 
     function mount()
     {
@@ -243,6 +244,20 @@ class Home extends Component
             $this->dataAgenda = $response['data'];
             $this->dateAgenda = $date;
             // dd($this->dataAgenda);
+        }
+    }
+
+    function _getJumlahASN()
+    {
+        // https://semesta.oganilirkab.go.id/api/total-pegawai-dashoi
+        $response = Http::post('https://semesta.oganilirkab.go.id/api/total-pegawai-dashoi', [
+            // 'id_skpd' => collect($this->cookieSkpdBawahan)->toArray(),
+        ]);
+
+        $response = collect(json_decode($response, true));
+        if ($response['code'] == '200') {
+            $this->dataPegawaiASN = $response['data'];
+            // dd($this->dataPegawaiASN);
         }
     }
 }

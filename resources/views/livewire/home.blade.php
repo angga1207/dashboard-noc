@@ -6,6 +6,7 @@ use Carbon\Carbon;
 <div>
     <div wire:init="_getAgendaJadwalinBae"></div>
     <div wire:init="_getSuratSemesta"></div>
+    <div wire:init="_getJumlahASN"></div>
 
     <div class="slim-mainpanel">
         <div class="container-fluid pd-t-20">
@@ -35,7 +36,8 @@ use Carbon\Carbon;
                         <div class="card-body">
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
-                                Agenda Kegiatan(Jadwalin Bae) <i class="fa fa-check text-success"></i>
+                                Agenda Kegiatan(Jadwalin Bae)
+                                <i class="fa fa-check text-success"></i>
                             </h6>
 
                             <!-- MODAL EFFECTS -->
@@ -358,8 +360,12 @@ use Carbon\Carbon;
                                                                 </span>
                                                                 <br>
                                                                 <span class="badge badge-info">
-                                                                    {{-- {{ $data['naskah_keluar']['skpd_pengirim']['nama_skpd'] ?? '' }} --}}
-                                                                    {{ $data['naskah_keluar']['skpd_pengirim']['nama_skpd_alias'] ?? '' }}
+                                                                    {{-- {{
+                                                                    $data['naskah_keluar']['skpd_pengirim']['nama_skpd']
+                                                                    ?? '' }} --}}
+                                                                    {{
+                                                                    $data['naskah_keluar']['skpd_pengirim']['nama_skpd_alias']
+                                                                    ?? '' }}
                                                                 </span>
                                                             </td>
                                                             <td>
@@ -370,11 +376,15 @@ use Carbon\Carbon;
                                                             </td>
                                                             <td>
                                                                 <div>
-                                                                    {{ $data['naskah_keluar']['pegawai_created']['nama_lengkap'] ?? '-' }}
+                                                                    {{
+                                                                    $data['naskah_keluar']['pegawai_created']['nama_lengkap']
+                                                                    ?? '-' }}
                                                                     -
                                                                 </div>
                                                                 <div>
-                                                                    {{ $data['naskah_keluar']['pegawai_created']['jabatan'] ?? '-' }}
+                                                                    {{
+                                                                    $data['naskah_keluar']['pegawai_created']['jabatan']
+                                                                    ?? '-' }}
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -530,8 +540,10 @@ use Carbon\Carbon;
                                                                 </span>
                                                                 <br>
                                                                 <span class="badge badge-info">
-                                                                    {{-- {{ $data['skpd_pengirim']['nama_skpd'] ?? '' }} --}}
-                                                                    {{ $data['skpd_pengirim']['nama_skpd_alias'] ?? '' }}
+                                                                    {{-- {{ $data['skpd_pengirim']['nama_skpd'] ?? '' }}
+                                                                    --}}
+                                                                    {{ $data['skpd_pengirim']['nama_skpd_alias'] ?? ''
+                                                                    }}
                                                                 </span>
                                                             </td>
                                                             <td>
@@ -762,8 +774,10 @@ use Carbon\Carbon;
                     </div><!-- card -->
 
                     <div class="card card-sales mg-t-10">
-                        <h4 class="slim-card-title mb-3"><i class="fa fa-universal-access mr-2 fs-18"></i>Kondisi Jumlah
-                            ASN
+                        <h4 class="slim-card-title mb-3">
+                            <i class="fa fa-universal-access mr-2 fs-18"></i>
+                            Kondisi Jumlah ASN
+                            <i class="fa fa-check text-success"></i>
                         </h4>
                         <div class="row row-xs justify-content-center">
                             <div class="lottie-img">
@@ -780,10 +794,24 @@ use Carbon\Carbon;
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div class="alert alert-solid alert-info">
-                                    PNS : <span class="fs-18">3.876</span>
+                                    PNS :
+                                    <span class="fs-18">
+                                        @if(isset($this->dataPegawaiASN['total_pns']))
+                                        {{ number_format($this->dataPegawaiASN['total_pns'], 0, ',', ',') }}
+                                        @else
+                                        ...
+                                        @endif
+                                    </span>
                                 </div>
                                 <div class="alert alert-solid alert-warning">
-                                    PPPK : <span class="fs-18">3.876</span>
+                                    PPPK :
+                                    <span class="fs-18">
+                                        @if(isset($this->dataPegawaiASN['total_pppk']))
+                                        {{ number_format($this->dataPegawaiASN['total_pppk'], 0, ',', ',') }}
+                                        @else
+                                        ...
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
                         </div>
