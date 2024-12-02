@@ -64,11 +64,13 @@ use Carbon\Carbon;
                                                                             {{ number_format($kp_totalSeluruhASN,
                                                                             0,'.','.') }}
                                                                             @else
-                                                                            @livewire('components.loading')
+                                                                            {{-- @livewire('components.loading') --}}
+                                                                            ...
                                                                             @endif
                                                                         </h1>
                                                                         <h6 class="tx-15 tx-inverse tx-bold mg-b-20">
-                                                                            Total Seluruh ASN</h6>
+                                                                            Total Perangkat Desa
+                                                                        </h6>
                                                                     </div>
                                                                     <div class="lottie">
                                                                         <script

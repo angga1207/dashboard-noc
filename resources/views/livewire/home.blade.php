@@ -98,11 +98,22 @@ use Carbon\Carbon;
                                                             </span>
                                                         </p>
                                                         <p class="contact-item">
-                                                            <span>Waktu:</span>
-                                                            <a href="">
+                                                            <span>Tanggal:</span>
+                                                            <span>
                                                                 @if(isset($detailAgenda['tanggal_pelaksanaan']))
                                                                 {{
-                                                                Carbon::parse($detailAgenda['tanggal_pelaksanaan'])->isoFormat('HH:mm')
+                                                                Carbon::parse($detailAgenda['tanggal_pelaksanaan'])->isoFormat('D MMMM Y')
+                                                                }}
+                                                                @endif
+                                                            </span>
+                                                        </p>
+                                                        <p class="contact-item">
+                                                            <span>Waktu:</span>
+                                                            <a href="">
+                                                                @if(isset($detailAgenda['waktu_pelaksanaan']))
+                                                                {{
+                                                                Carbon::parse($detailAgenda['waktu_pelaksanaan'])->isoFormat('HH:mm
+                                                                [WIB]')
                                                                 }}
                                                                 @endif
                                                             </a>
@@ -208,7 +219,7 @@ use Carbon\Carbon;
 
                                         @forelse($this->dataAgenda as $agenda)
                                         <div class="card-body item-agenda bd bd-t-0 bg-custom">
-                                            <div class="d-flex justify-content-between mg-b-2">
+                                            {{-- <div class="d-flex justify-content-between mg-b-2">
                                                 <div class="tx-14">
                                                     <a href="" class="tx-gray-500">
                                                         <i class="icon ion-star"></i>
@@ -218,50 +229,79 @@ use Carbon\Carbon;
                                                     </a>
                                                 </div>
                                                 <span class="tx-12">
-                                                    {{-- Rabu, 26 Nov 2024 | 09:30:00 WB --}}
                                                     {{ Carbon::parse($agenda['tanggal_pelaksanaan'])->isoFormat('dddd, D
-                                                    MMMM Y') }}
+                                                    MMM Y') }} -
+                                                    {{ Carbon::parse($agenda['waktu_pelaksanaan'])->isoFormat('HH:mm
+                                                    [WIB]') }}
                                                 </span>
-                                            </div><!-- d-flex -->
+                                            </div> --}}
                                             <h6 class="tx-14 mg-t-10">
                                                 <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
                                                     href="#modalAgenda" data-toggle="modal"
                                                     class="modal-effect tx-inverse">
-                                                    <i class="fa fa-bookmark mr-2"></i>
-                                                    {{ $agenda['nama_acara'] }}
+                                                    {{-- <i class="fa fa-bookmark mr-2"></i> --}}
+                                                    <div class="text-center">
+                                                        {{ $agenda['nama_acara'] }}
+                                                    </div>
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
                                                 <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
                                                     href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse">
+                                                    class="modal-effect tx-inverse"
+                                                    style="font-weight: normal !important">
                                                     <i class="fa fa-user mr-2"></i>
                                                     Leading Sector : <br>
-                                                    @foreach($agenda['leading_sector'] as $sector)
-                                                    {{ $sector }} @if(!$loop->last), @endif
-                                                    @endforeach
+                                                    <div class="ml-4">
+                                                        @foreach($agenda['leading_sector'] as $sector)
+                                                        {{ $sector }} @if(!$loop->last), @endif
+                                                        @endforeach
+                                                    </div>
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
                                                 <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
                                                     href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse">
-                                                    <i class="fa fa-university mr-2"></i>
+                                                    class="modal-effect tx-inverse"
+                                                    style="font-weight: normal !important">
+                                                    <i class="fa fa-university mr-1"></i>
                                                     Lokasi : <br>
-                                                    @foreach($agenda['tempat_pelaksanaan_array'] as $tempat)
-                                                    {{ $tempat }} @if(!$loop->last), @endif
-                                                    @endforeach
+                                                    <div class="ml-4">
+                                                        @foreach($agenda['tempat_pelaksanaan_array'] as $tempat)
+                                                        {{ $tempat }} @if(!$loop->last), @endif
+                                                        @endforeach
+                                                    </div>
                                                 </a>
                                             </h6>
                                             <h6 class="tx-14">
                                                 <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
                                                     href="#modalAgenda" data-toggle="modal"
-                                                    class="modal-effect tx-inverse">
-                                                    <i class="fa fa-users mr-2"></i>
+                                                    class="modal-effect tx-inverse"
+                                                    style="font-weight: normal !important">
+                                                    <i class="fa fa-users mr-1"></i>
                                                     Dihadiri Oleh : <br>
-                                                    @foreach($agenda['dihadiri'] as $peserta)
-                                                    {{ $peserta['nama_jabatan'] }} @if(!$loop->last), @endif
-                                                    @endforeach
+                                                    <div class="ml-4">
+                                                        @foreach($agenda['dihadiri'] as $peserta)
+                                                        {{ $peserta['nama_jabatan'] }} @if(!$loop->last), @endif
+                                                        @endforeach
+                                                    </div>
+                                                </a>
+                                            </h6>
+                                            <h6 class="tx-14">
+                                                <a wire:click.prevent="getDetailAgenda({{ json_encode($agenda,true) }})"
+                                                    href="#modalAgenda" data-toggle="modal"
+                                                    class="modal-effect tx-inverse"
+                                                    style="font-weight: normal !important">
+                                                    <i class="fa fa-calendar mr-1"></i>
+                                                    Waktu : <br>
+                                                    <div class="ml-4">
+                                                        {{
+                                                        Carbon::parse($agenda['tanggal_pelaksanaan'])->isoFormat('dddd,
+                                                        D
+                                                        MMMM Y') }} |
+                                                        {{ Carbon::parse($agenda['waktu_pelaksanaan'])->isoFormat('HH:mm
+                                                        [WIB]') }}
+                                                    </div>
                                                 </a>
                                             </h6>
                                         </div>

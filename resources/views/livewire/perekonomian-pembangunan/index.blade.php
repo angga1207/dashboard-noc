@@ -41,7 +41,10 @@
                                 @endif
                             </div>
                             <div class="sec-01">
-                                <h2 class="tx-lato" style="font-weight: bold; white-space: nowrap;">
+                                <p class="tx-12 mb-0">
+                                    Anggaran
+                                </p>
+                                <h2 class="tx-lato mb-4" style="font-weight: bold; white-space: nowrap;">
                                     <i class="fa fa-bolt mr-2"></i>
                                     @if(isset($this->dataKeuangan['target']))
                                     Rp. {{ number_format(collect($this->dataKeuangan['target'])->max('target'),
@@ -50,12 +53,12 @@
                                     Rp. ...
                                     @endif
                                 </h2>
-                                <p class="tx-12">
-                                    Anggaran
-                                </p>
                             </div>
                             <div class="sec-02">
-                                <h2 class="tx-lato" style="font-weight: bold; white-space: nowrap;">
+                                <p class="tx-12 mb-0">
+                                    Realisasi
+                                </p>
+                                <h2 class="tx-lato mb-4" style="font-weight: bold; white-space: nowrap;">
                                     <i class="fa fa-money mr-2"></i>
                                     @if(isset($this->dataKeuangan['realisasi']))
                                     Rp. {{ number_format(collect($this->dataKeuangan['realisasi'])->max('realisasi'),
@@ -64,12 +67,12 @@
                                     Rp. ...
                                     @endif
                                 </h2>
-                                <p class="tx-12">
-                                    Realisasi
-                                </p>
                             </div>
                             <div class="sec-03">
-                                <h2 class="tx-lato" style=" font-weight: bold; white-space: nowrap;">
+                                <p class="tx-12 mb-0">
+                                    Capaian Realisasi
+                                </p>
+                                <h2 class="tx-lato mb-4" style=" font-weight: bold; white-space: nowrap;">
                                     <i class="fa fa-percent mr-2"></i>
                                     @if(isset($this->dataKeuangan['target']) && isset($this->dataKeuangan['realisasi']))
                                     {{ number_format((collect($this->dataKeuangan['realisasi'])->max('realisasi') /
@@ -79,9 +82,6 @@
                                     ...
                                     @endif
                                 </h2>
-                                <p class="tx-12">
-                                    Capaian Realisasi
-                                </p>
                             </div>
 
                             @if($instanceIdKeuangan)
@@ -183,7 +183,10 @@
                                 @endif
                             </div>
                             <div class="sec-01">
-                                <h1 class="tx-lato" style="font-weight: bold; white-space: nowrap">
+                                <p class="tx-12 mb-0">
+                                    Target Kinerja
+                                </p>
+                                <h1 class="tx-lato mb-4" style="font-weight: bold; white-space: nowrap">
                                     <i class="fa fa-bolt mr-3"></i>
                                     @if(isset($this->dataKinerja['target']))
                                     {{ number_format(collect($this->dataKinerja['target'])->max('target'),
@@ -192,12 +195,12 @@
                                     ...
                                     @endif
                                 </h1>
-                                <p class="tx-12">
-                                    Target Kinerja
-                                </p>
                             </div>
                             <div class="sec-03">
-                                <h1 class="tx-lato" style=" font-weight: bold; white-space: nowrap">
+                                <p class="tx-12 mb-0">
+                                    Capaian Realisasi
+                                </p>
+                                <h1 class="tx-lato mb-4" style=" font-weight: bold; white-space: nowrap">
                                     <i class="fa fa-percent mr-3"></i>
                                     @if(isset($this->dataKinerja['realisasi']))
                                     {{ number_format(collect($this->dataKinerja['realisasi'])->max('realisasi'),
@@ -206,9 +209,6 @@
                                     ...
                                     @endif
                                 </h1>
-                                <p class="tx-12">
-                                    Capaian Realisasi
-                                </p>
                             </div>
                             @if($instanceIdKinerja)
                             <div class="mb-4 text-center">
@@ -241,7 +241,7 @@
                             <div class="d-flex justify-content-between gap-4" style="overflow-y: auto">
 
                                 <div class="">
-                                    <div class="text-muted">
+                                    <div class="tx-white-8">
                                         {{ $inst['instance_code'] }}
                                     </div>
                                     <h4 class="tx-white-8 fs-32">
