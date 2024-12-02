@@ -232,8 +232,8 @@ class Home extends Component
     function _getAgendaJadwalinBae()
     {
         // https://jadwalinbae.oganilirkab.go.id/api/jadwalv2?tanggal=2024-11-30
-        $date = '2024-11-30';
-        // $date = Carbon::now()->format('Y-m-d');
+        // $date = '2024-11-30';
+        $date = Carbon::now()->format('Y-m-d');
 
         $response = Http::get('https://jadwalinbae.oganilirkab.go.id/api/jadwalv2', [
             'tanggal' => $date,
