@@ -75,9 +75,18 @@
                                 <h2 class="tx-lato mb-4" style=" font-weight: bold; white-space: nowrap;">
                                     <i class="fa fa-percent mr-2"></i>
                                     @if(isset($this->dataKeuangan['target']) && isset($this->dataKeuangan['realisasi']))
-                                    {{ number_format((collect($this->dataKeuangan['realisasi'])->max('realisasi') /
-                                    collect($this->dataKeuangan['target'])->max('target')) * 100,
-                                    2,',',',') }}
+                                    @php
+                                    $maxRealisasi = collect($this->dataKeuangan['realisasi'])->max('realisasi');
+                                    $maxTarget = collect($this->dataKeuangan['target'])->max('target');
+                                    $persen = 0;
+                                    if($maxTarget == 0) {
+                                    $persen = 0;
+                                    }
+                                    else{
+                                    $persen = ($maxRealisasi / $maxTarget) * 100;
+                                    }
+                                    @endphp
+                                    {{ number_format($persen,2,',',',') }}
                                     @else
                                     ...
                                     @endif

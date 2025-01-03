@@ -143,31 +143,31 @@
     @livewireChartsScripts
 
     <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.hook('request', ({ url, options, payload, respond, succeed, fail }) => {
-                respond(({ status, response }) => {
-                    if(status == 500){
-                        console.log(response);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Terjadi kesalahan saat mengambil data. Mohon Ulangi Kembali atau Hubungi Admin!',
-                            confirmButtonText: 'Muat Ulang!',
-                            confirmButtonColor: '#28a745',
-                            showCancelButton: true,
-                            cancelButtonText: 'Tutup!',
-                            cancelButtonColor: '#dc3545',
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        })
-                        preventDefault();
-                        return false;
-                    }
-                })
-            })
-        })
+        // document.addEventListener('livewire:init', () => {
+        //     Livewire.hook('request', ({ url, options, payload, respond, succeed, fail }) => {
+        //         respond(({ status, response }) => {
+        //             if(status == 500){
+        //                 console.log(response);
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Oops...',
+        //                     text: 'Terjadi kesalahan saat mengambil data. Mohon Ulangi Kembali atau Hubungi Admin!',
+        //                     confirmButtonText: 'Muat Ulang!',
+        //                     confirmButtonColor: '#28a745',
+        //                     showCancelButton: true,
+        //                     cancelButtonText: 'Tutup!',
+        //                     cancelButtonColor: '#dc3545',
+        //                 }).then((result) => {
+        //                     if (result.isConfirmed) {
+        //                         location.reload();
+        //                     }
+        //                 })
+        //                 preventDefault();
+        //                 return false;
+        //             }
+        //         })
+        //     })
+        // })
     </script>
 
 </body>
