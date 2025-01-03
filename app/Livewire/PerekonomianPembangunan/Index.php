@@ -15,6 +15,7 @@ class Index extends Component
     public $cookieUser = [], $cookieSkpdBawahan = [];
 
     public $periode = 1, $year;
+    public $arrYears = [];
     public $instanceIdKeuangan, $dataKeuangan = [];
     public $instanceIdKinerja, $dataKinerja = [];
     public $dataRank = [];
@@ -35,7 +36,8 @@ class Index extends Component
         $this->instanceIdKeuangan = $defaultInstanceId;
         $this->instanceIdKinerja = $defaultInstanceId;
 
-        $this->year = date('Y');
+        $this->year = $this->year ?? date('Y');
+        $this->arrYears = (range(2021, date('Y')));
     }
 
     public function render()
@@ -95,6 +97,12 @@ class Index extends Component
         }
         if ($field == 'instanceIdKinerja') {
             $this->_getDataRealisasiKinerja();
+        }
+
+        if ($field == 'year') {
+            $this->_getDataRealisasiKeuangan();
+            $this->_getDataRealisasiKinerja();
+            $this->year = $this->year;
         }
     }
 

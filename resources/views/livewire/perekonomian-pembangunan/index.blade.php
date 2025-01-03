@@ -13,7 +13,7 @@
                         <div class="card-body pd-b-0">
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
-                                Capaian Keuangan Tahun {{ $year }}
+                                Capaian Keuangan Tahun {{ $this->year }}
                                 <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
@@ -39,6 +39,24 @@
                                     <option value="">Kabupaten Ogan Ilir</option>
                                 </select>
                                 @endif
+                            </div>
+                            <div class="">
+                                <select class="form-control mg-b-30" x-init="
+                                new TomSelect($el,{
+                                    create: false,
+                                    sortField: {
+                                        field: 'text',
+                                        direction: 'asc'
+                                    }
+                                });
+                                " wire:model.live="year">
+                                    <option value="">Pilih Tahun</option>
+                                    @foreach($arrYears as $year)
+                                    <option value="{{ $year }}">
+                                        {{ $year }}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="sec-01">
                                 <p class="tx-12 mb-0">
@@ -111,7 +129,7 @@
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
                                 Tabel Capaian Keuangan {{ $selectedInstanceKeuangan->name ?? 'Kabupaten Ogan Ilir' }}
-                                Tahun {{ $year }}
+                                Tahun {{ $this->year }}
                                 <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
@@ -164,7 +182,7 @@
                             <h6 class="slim-card-title mb-3">
                                 <i class="fa fa-universal-access mr-2"></i>
                                 Capaian Kinerja
-                                Tahun {{ $year }}
+                                Tahun {{ $this->year }}
                                 <i class="fa fa-check text-success"></i>
                             </h6>
                             <div class="">
