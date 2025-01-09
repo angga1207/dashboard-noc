@@ -102,6 +102,7 @@ class Index extends Component
         if ($field == 'year') {
             $this->_getDataRealisasiKeuangan();
             $this->_getDataRealisasiKinerja();
+            $this->_getDataRank();
             $this->year = $this->year;
         }
     }
